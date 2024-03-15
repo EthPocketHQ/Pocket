@@ -2,8 +2,8 @@
 pragma solidity ^0.8.25;
 
 import {IBasePocket} from "interface/IBasePocket.sol";
-import {Hooks} from "@uniswap/v4-core/src/libraries/Hooks.sol";
-import {BaseHook} from "@uniswap/v4-periphery/contracts/BaseHook.sol";
+import {Hooks} from "../lib/v4-core/src/libraries/Hooks.sol";
+import {BaseHook} from "../lib/v4-periphery/contracts/BaseHook.sol";
 
 contract UniswapPocket is IBasePocket, BaseHook {
 
@@ -28,7 +28,7 @@ contract UniswapPocket is IBasePocket, BaseHook {
     IPoolManager.SwapParams calldata, 
     bytes calldata
   ) external override returns (bytes4) {
-    
+
     // @TODO: code
     return BaseHook.beforeSwap.selector;
   }
