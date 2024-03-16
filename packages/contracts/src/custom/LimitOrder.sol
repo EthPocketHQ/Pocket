@@ -99,6 +99,8 @@ contract LimitOrder is BaseHook {
             });
     }
 
+    function validateHookAddress(BaseHook _this) internal pure virtual override {}
+
     function getTickLowerLast(PoolId poolId) public view returns (int24) {
         return tickLowerLasts[poolId];
     }
