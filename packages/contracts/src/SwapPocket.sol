@@ -12,8 +12,9 @@ contract SwapPocket is BasePocket {
     IPoolManager public poolManager;
     error MethodNotImplemented();
 
-    function setupPocket(IPoolManager _poolManager) public initializer {
-        poolManager = _poolManager;
+    function setUp(bytes memory data) public override initializer {
+        address _poolManager = abi.decode(data, (address));
+        poolManager = IPoolManager(_poolManager);
     }
 
     function deposit(bytes memory) external view override authorized {
