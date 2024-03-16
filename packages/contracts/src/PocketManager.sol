@@ -13,8 +13,8 @@ contract PocketManager {
     event ExecutedPocketTransaction(uint32 nonce, bool success);
     error InvalidPocketSignature(bytes signature);
 
-    constructor(address safe) {
-        _safe = safe;
+    constructor(address __safe) {
+        _safe = __safe;
     }
 
     /// @notice Returns the Safe{Wallet} instance associated with this module

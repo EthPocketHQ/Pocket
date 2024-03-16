@@ -1,1 +1,4 @@
 .vscode
+lib
+contracts/lib
+packages/contracts/lib
