@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.25;
 
-import {IBasePocket} from "./interface/IBasePocket.sol";
+import {BasePocket} from "./base/BasePocket.sol";
 import {Hooks} from "@uniswap/v4-core/src/libraries/Hooks.sol";
 import {BaseHook} from "@uniswap/v4-periphery/BaseHook.sol";
 
-contract UniswapPocket is IBaseContract, BaseHook {
+contract UniswapPocket is BaseContract, BaseHook {
 
   constructor(IPoolManager _poolManager) BaseHook(_poolManager) {}
 
