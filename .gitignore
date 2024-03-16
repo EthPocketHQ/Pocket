@@ -28,3 +28,5 @@ dist/
 .DS_Store
 Thumbs.db
 .vercel
+lib/
+.gitmodules
