@@ -1,0 +1,34 @@
+classDiagram
+  %% 604:3815:86
+  class PocketManager {
+    <<Contract>>
+    +constructor()
+    +setupPocket(address _referenceSafe, address _pocketVault)
+    +referenceSafe(): (contract Safe)
+    +pocketVault(): (contract Safe)
+    #executeTransaction(address to, uint256 value, bytes calldata data, bytes memory signatures): (bool)
+    -_getPocketManagerStorage(): (struct PocketManager.PocketManagerStorage storage $)
+  }
+  
+  PocketManager --|> Nonces
+  
+  %% 209:1280:37
+  class Nonces {
+    <<Contract>>
+    +nonces(address owner): (uint256)
+    ~_useNonce(address owner): (uint256)
+    ~_useCheckedNonce(address owner, uint256 nonce)
+  }
+  
+  PocketManager --|> Initializable
+  
+  %% 2349:6560:34
+  class Initializable {
+    <<Contract>>
+    ~_checkInitializing()
+    ~_disableInitializers()
+    ~_getInitializedVersion(): (uint64)
+    ~_isInitializing(): (bool)
+    -_getInitializableStorage(): (struct Initializable.InitializableStorage storage $)
+  }
+  

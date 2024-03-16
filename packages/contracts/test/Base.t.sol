@@ -38,16 +38,7 @@ contract BaseTest is Test {
                     address(new SafeMock()),
                     abi.encodeCall(
                         Safe.setup,
-                        (
-                            owners,
-                            1,
-                            address(0),
-                            new bytes(0),
-                            address(0),
-                            address(0),
-                            0,
-                            payable(0)
-                        )
+                        (owners, 1, address(0), new bytes(0), address(0), address(0), 0, payable(0))
                     ),
                     0x0
                 )
@@ -85,11 +76,7 @@ contract BaseTest is Test {
     function _forceEnableModule(address payable safe, address module) internal {
         // Enable as a module to bypass signatures
         // https://twitter.com/0xVazi/status/1732187067776696655
-        vm.store(
-            safe,
-            keccak256(abi.encode(address(module), 1)),
-            bytes32(uint256(1))
-        );
+        vm.store(safe, keccak256(abi.encode(address(module), 1)), bytes32(uint256(1)));
         assertTrue(SafeMock(safe).isModuleEnabled(address(module)));
     }
 }
