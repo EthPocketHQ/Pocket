@@ -2,8 +2,8 @@
 pragma solidity ^0.8.25;
 
 import {SelfAuthorized} from "@safe/contracts/common/SelfAuthorized.sol";
-import {IMorpho, Id, MarketParams} from "@morpho-blue/interfaces/IMorpho.sol";
-import {BasePocket} from "./base/BasePocket.sol";
+import {IMorpho, MarketParams} from "@morpho-blue/interfaces/IMorpho.sol";
+import {BasePocket} from "~/base/BasePocket.sol";
 import {IMorpho} from "@morpho-blue/interfaces/IMorpho.sol";
 
 import {MorphoBalancesLib} from "@morpho-blue/libraries/periphery/MorphoBalancesLib.sol";

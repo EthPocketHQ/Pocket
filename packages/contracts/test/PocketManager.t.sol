@@ -14,32 +14,22 @@ contract PocketManagerTest is BaseTest {
     function setUp() public override {
         super.setUp();
 
-        (address _pocketManager, address _pocketVault) = pocketFactory
-            .createDeterministic(address(referenceSafe), bytes32(0));
+        (address _pocketManager, address _pocketVault) = pocketFactory.createDeterministic(
+            address(referenceSafe),
+            bytes32(0)
+        );
         pocketVault = SafeMock(payable(_pocketVault));
         pocketManager = PocketManager(_pocketManager);
     }
 
     function test_setUp() public view {
         assertEq(address(pocketManager.pocketVault()), address(pocketVault));
-        assertEq(
-            address(pocketManager.referenceSafe()),
-            address(referenceSafe)
-        );
+        assertEq(address(pocketManager.referenceSafe()), address(referenceSafe));
         assertTrue(pocketVault.isModuleEnabled(address(pocketManager)));
     }
 
-    function test_executeTransaction(
-        address to,
-        uint256 value,
-        bytes calldata data
-    ) public {
-        (, bytes memory signatures) = _forgeTransactionData(
-            to,
-            value,
-            data,
-            referenceSafe.nonce()
-        );
+    function test_executeTransaction(address to, uint256 value, bytes calldata data) public {
+        (, bytes memory signatures) = _forgeTransactionData(to, value, data, referenceSafe.nonce());
         // vm.expectEmit(true, true, true, true);
         // emit SafeMock.ExecutedWith(to, value, data, Enum.Operation.Call);
         vm.deal(address(referenceSafe), value);

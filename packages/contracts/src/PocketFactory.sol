@@ -5,9 +5,9 @@ import {Clones} from "@openzeppelin/contracts/proxy/Clones.sol";
 import {Address} from "@openzeppelin/contracts/utils/Address.sol";
 import {SafeProxyFactory, SafeProxy} from "@safe/contracts/proxies/SafeProxyFactory.sol";
 import {IProxy} from "@safe/contracts/proxies/SafeProxy.sol";
-import {PocketManager} from "./PocketManager.sol";
+import {PocketManager} from "~/PocketManager.sol";
 import {Safe} from "@safe/contracts/Safe.sol";
-import {ExecutionContext} from "./utils/ExecutionContext.sol";
+import {ExecutionContext} from "~/utils/ExecutionContext.sol";
 
 contract PocketFactory is ExecutionContext {
     using Address for address;

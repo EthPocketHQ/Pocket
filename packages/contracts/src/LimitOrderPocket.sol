@@ -2,8 +2,8 @@
 
 pragma solidity ^0.8.25;
 
-import {LimitOrder, PoolKey, Epoch, IPoolManager} from "./custom/LimitOrder.sol";
-import {BasePocket} from "./base/BasePocket.sol";
+import {LimitOrder, PoolKey, Epoch, IPoolManager} from "~/custom/LimitOrder.sol";
+import {BasePocket} from "~/base/BasePocket.sol";
 
 contract LimitOrderPocket is LimitOrder, BasePocket {
     constructor(IPoolManager _poolManager) LimitOrder(_poolManager) {}
