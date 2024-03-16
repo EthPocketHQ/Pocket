@@ -1,1 +1,30 @@
 .vscode
+# Logs
+logs
+*.log
+
+# Next.js build output
+.next/
+
+# Dependencies
+node_modules/
+dist/
+
+# Environment variables
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
+*.env
+
+# Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*.bak
+
+# OS files
+.DS_Store
+Thumbs.db
+.vercel
