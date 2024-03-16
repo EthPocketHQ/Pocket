@@ -72,7 +72,7 @@ export function Overview() {
                     // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
                     tickFormatter={(value) => `$${value}`}
                 />
-                <Bar dataKey="total" fill="#adfa1d" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="total" fill="#6FAEF6" radius={[4, 4, 0, 0]} />
             </BarChart>
         </ResponsiveContainer>
     );

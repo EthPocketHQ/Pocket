@@ -1,38 +1,56 @@
-import { BookOpenCheck, LayoutDashboard } from "lucide-react";
+import {
+  BookOpenCheck,
+  LayoutDashboard,
+  DollarSign,
+  Settings,
+  User,
+} from "lucide-react";
 import { type NavItem } from "@/types";
 
 export const NavItems: NavItem[] = [
   {
-    title: "Dashboard",
+    title: "My Pockets",
     icon: LayoutDashboard,
     href: "/",
     color: "text-sky-500",
-  },
-  {
-    title: "Example",
-    icon: BookOpenCheck,
-    href: "/example",
-    color: "text-orange-500",
-    isChidren: true,
+    isChidren: false,
     children: [
       {
-        title: "Example-01",
+        title: "Pocket 1",
         icon: BookOpenCheck,
         color: "text-red-500",
         href: "/example/employees",
       },
       {
-        title: "Example-02",
+        title: "Pocket 2",
         icon: BookOpenCheck,
         color: "text-red-500",
         href: "/example/example-02",
       },
       {
-        title: "Example-03",
+        title: "My Vault",
         icon: BookOpenCheck,
         color: "text-red-500",
         href: "/example/example-03",
       },
     ],
+  },
+  {
+    title: "My Profile",
+    icon: User,
+    href: "/myProfile",
+    color: "text-sky-500",
+  },
+  {
+    title: "Settings",
+    icon: Settings,
+    href: "/settings",
+    color: "text-sky-500",
+  },
+  {
+    title: "Narco Wallet",
+    icon: DollarSign,
+    href: "/dontdoit",
+    color: "text-green-500",
   },
 ];

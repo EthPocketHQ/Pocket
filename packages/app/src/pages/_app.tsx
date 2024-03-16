@@ -2,17 +2,17 @@ import { type AppType } from "next/app";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 
-import { api } from "@/utils/api";
 import { ThemeProvider } from "next-themes";
 import { Layout } from "@/components/layout";
 import { Toaster } from "react-hot-toast";
+
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import "@rainbow-me/rainbowkit/styles.css";
 
 import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { WagmiProvider } from "wagmi";
 import { gnosisChiado } from "wagmi/chains";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 const config = getDefaultConfig({
   appName: "My RainbowKit App",
@@ -21,15 +21,14 @@ const config = getDefaultConfig({
   ssr: true,
 });
 import "@/styles/globals.css";
-const queryClient = new QueryClient();
-
+const client = new QueryClient();
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
   return (
     <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={client}>
         <RainbowKitProvider>
           <SessionProvider session={session}>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
@@ -45,4 +44,4 @@ const MyApp: AppType<{ session: Session | null }> = ({
   );
 };
 
-export default api.withTRPC(MyApp);
+export default MyApp;
