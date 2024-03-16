@@ -10,6 +10,7 @@ body,
 
 body {
   overflow: hidden;
+  cursor: url('/cursors/myCursor.svg'), auto;
 }
 
 @layer base {

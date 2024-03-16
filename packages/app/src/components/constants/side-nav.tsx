@@ -47,10 +47,10 @@ export const NavItems: NavItem[] = [
     href: "/settings",
     color: "text-sky-500",
   },
-  {
-    title: "Narco Wallet",
-    icon: DollarSign,
-    href: "/dontdoit",
-    color: "text-green-500",
-  },
+  // {
+  //   title: "Narco Wallet",
+  //   icon: DollarSign,
+  //   href: "/dontdoit",
+  //   color: "text-green-500",
+  // },
 ];

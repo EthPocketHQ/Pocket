@@ -23,9 +23,9 @@ export default function Header() {
             <nav className="flex h-16 items-center justify-between px-4">
                 <Link
                     href={"/"}
-                    className="hidden items-center justify-center gap-2 md:flex"
+                    className="hidden items-center justify-center gap-2 md:flex ml-4"
                 >
-                    <Image src="/Logo.png" alt="Pocket dApp" width={200} height={30} />
+                    <Image src="/Pocket.png" alt="Pocket dApp" width={120} height={30} />
                 </Link>
                 <div className={cn("block md:!hidden")}>
                     <MobileSidebar />

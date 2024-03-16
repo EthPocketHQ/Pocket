@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import Modal from "../modal/Modal";
 
 const PocketComponent = () => {
   const [isActive, setIsActive] = useState(true);
+  const [isDepositOpen, setDepositOpen] = useState(false);
+  const [isWithdrawOpen, setWithdrawOpen] = useState(false);
+  const [isExecuteOpen, setExecuteOpen] = useState(false);
   return (
     <Card className="h-40">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -25,14 +29,23 @@ const PocketComponent = () => {
         <p className="text-xs text-muted-foreground">+13.1% from last month</p>
         {/* Botones añadidos aquí */}
         {isActive ? (
-          <div className="center mt-2 flex space-x-2">
-            <button className="rounded-md bg-blue-500 px-4 py-2 text-sm text-white">
+          <div className="flex justify-center mt-2 flex space-x-2 max-w-sm">
+            <button 
+              className="rounded-md bg-blue-500 px-4 py-2 text-sm text-white"
+              onClick={() => setDepositOpen(true)}
+            >
               Deposit
             </button>
-            <button className="rounded-md bg-green-500 px-4 py-2 text-sm text-white">
+            <button 
+              className="rounded-md bg-green-500 px-4 py-2 text-sm text-white"
+              onClick={() => setWithdrawOpen(true)}
+            >
               Withdraw
             </button>
-            <button className="rounded-md bg-teal-500 px-4 py-2 text-sm text-white">
+            <button 
+              className="rounded-md bg-teal-500 px-4 py-2 text-sm text-white"
+              onClick={() => setExecuteOpen(true)}
+            >
               Execute
             </button>
           </div>
@@ -43,6 +56,15 @@ const PocketComponent = () => {
             </button>
           </div>
         )}
+        <Modal isOpen={isDepositOpen} closeModal={() => setDepositOpen(false)} title="Withdraw">
+          <div>test</div>
+        </Modal>
+        <Modal isOpen={isWithdrawOpen} closeModal={() => setWithdrawOpen(false)} title="Withdraw">
+          <div>test</div>
+        </Modal>
+        <Modal isOpen={isExecuteOpen} closeModal={() => setExecuteOpen(false)} title="Execute">
+          <div>test</div>
+        </Modal>
       </CardContent>
     </Card>
   );

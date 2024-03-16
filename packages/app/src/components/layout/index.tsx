@@ -5,11 +5,21 @@ import Cookies from "js-cookie";
 import { useWriteContract } from "wagmi";
 import PocketFactoryAbi from "../../utils/abi/PocketFactory.json";
 import { ethers } from "ethers";
+import { Web3Provider } from "@ethersproject/providers";
+import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
+import { useWatchPendingTransactions } from 'wagmi'
+
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   const { writeContract, data } = useWriteContract();
   const [isLoaded, setIsLoaded] = useState(false);
   const [safeAddress, setSafeAddress] = useState("");
-  const PocketFactoryAddress = "0x1234567890123456789012345678901234567890";
+  const PocketFactoryAddress = "0x4ba376c825aCC1C3bb0DeAb3663d735A226a9f14";
+  const addRecentTransaction = useAddRecentTransaction();
+  useWatchPendingTransactions({
+    onTransactions(transactions) {
+      console.log('New transactions!', transactions)
+    },
+  })
   useEffect(() => {
     const pocket = Cookies.get("pocket");
     if (pocket) {
@@ -32,11 +42,11 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         onSuccess: (result) => {
           console.log("Transaction successful:", result);
           Cookies.set("pocketManager", safeAddress);
+          addRecentTransaction({
+            hash: result,
+            description: 'Create Pocket',
+          });
           setIsLoaded(true);
-          [
-            //manager
-            //bold
-          ];
         },
         onError: (error) => {
           console.error("Transaction error:", error);
@@ -58,7 +68,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
             value={safeAddress}
             onChange={(e) => setSafeAddress(e.target.value)}
             className="mt-4 w-full max-w-md rounded-md border-2 border-blue-500 px-4 py-2 text-gray-700 focus:border-blue-500 focus:ring-blue-500"
-            style={{ borderColor: "#4F46E5", borderWidth: "2px" }} // Ejemplo para bordes más vistosos
+            style={{ borderColor: "#4F46E5", borderWidth: "2px" }}
           />
           <button
             onClick={handleLoadSafe}
@@ -76,7 +86,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
       <div className="flex h-screen border-collapse overflow-hidden">
         <Sidebar />
         <main className="flex-1 overflow-y-auto overflow-x-hidden bg-secondary/10 pb-1 pt-16">
-          {!isLoaded ? children : <LoadYourSafe />}
+          {isLoaded ? children : <LoadYourSafe />}
         </main>
       </div>
     </>
