@@ -1,4 +1,5 @@
 .vscode
+packages/contracts/broadcast
 # Logs
 logs
 *.log
