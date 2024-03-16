@@ -16,16 +16,17 @@
 
 No olvidar conectar los repos o folders
 No olvidar subir el link de la landing para test 
+No olvidar subir el link del demo 
 
  -->
 
 <br />
 <div align="center">
   <a href="https://github.com/EthPocketHQ/Pocket">
-    <img src="https://i.ibb.co/ncvyYnr/Pocket-Landing-No.png">
+    <img src="https://i.ibb.co/s2vNV3V/Pocket-Landing-Taman-o-original.png">
   </a>
 
- <h3 align="center"> 💳 Slogan here  🔵</h3>
+ <h3 align="center"> 🔵 Seamless Financial Management 🔵</h3>
 
   <p align="center">
 
@@ -51,16 +52,12 @@ No olvidar subir el link de la landing para test
 # Table of Contents 
 
 1. [About de Project](#about-the-project)
-    - [Built With](#built-with)
-2. [Getting Started](#getting-started)
-    - [Prerequisites](#prerequisites)
-    - [Installation](#installation)
-3. [Usage](#usage)
-4. [Roadmap](#roadmap)
-5. [Contributing](#contributing)
-6. [Licence](#license)
-7. [Contact](#contact)
-8. [Acknowledgments](#acknowledgments)
+2. [Demo](#demo)
+3. [Built With](#built-with)
+4. [How it works](#how-it-works)
+5. [Usage](#usage)
+6. [Team](#team)
+7. [Acknowledgments](#acknowledgments)
 
 <br />
 
@@ -72,7 +69,12 @@ No olvidar subir el link de la landing para test
 
 <br />
 
-<!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
+
+![Pocket](https://i.ibb.co/5Lzf92J/Screenshot-2024-03-16-at-2-47-58-PM.png)
+
+Pocket is a Gnosis Pay savings account that enables seamless integration with on-chain liquidity providers and interest-earning tokens. 
+
+This is possible through an on-chain custodial for your savings that's capable of adding small financial modules called "pockets", these handle the logic of integrations with more complex financial services.
 
 
 
@@ -80,22 +82,27 @@ No olvidar subir el link de la landing para test
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
+# Demo
+
+<!-- INSERTAR DEMO AQUÍ-->
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 # Built With
 
-<!-- 
 
-Stake Garden is proudly supported by the following sponsors:
-
-* [![1inch][1inch.io]][1inch-url]
-* [![The Graph][thegraph.com]][Thegraph-url]
-* [![Metamask][metamask.io]][Metamask-url]
-* [![Nouns DAO][nouns.wtf]][Nouns-url]
+Pocket is proudly supported by the following sponsors:
 
 
+* [![Gnosis Pay][gnosispay.com]][gnosispay-url]
+* [![Safe][safe.global]][safe-url]
+* [![Uniswap][uniswap.org]][uniswap-url]
+* [![Panceswap][pancakeswap.finance]][pancakeswap-url]
+* [![Morpho][morpho.org]][morpho-url]
+* [![Nouns][nouns.wtf]][nouns-url]
 
-These powerful tools and frameworks have helped us create a seamless user experience and ensure the scalability and reliability of our platform.
 
--->
+These powerful partners have helped us create a seamless user experience and ensure the scalability and reliability of our project.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -104,124 +111,40 @@ These powerful tools and frameworks have helped us create a seamless user experi
 <!-- GETTING STARTED   -->
 
 
-# Getting Started
+# How it Works
 
-<!--
+We leverage Safe and Safe modules for what we call the "PocketVault". Each vault is a secondary Safe Wallet that we deploy through a factory without owners and only a single module enabled to operate it. This module is called "PocketManager" and it allows executing transactions on the PocketVault by validating and authorizing signatures exactly as if it were the Gnosis Pay underlying Safe.
 
+Given the PocketVault is only operated by the Gnosis Pay owner's, the vault works as an extension that's not restricted by the Gnosis Pay delay module.
 
-To get started with Stake Garden, follow these steps:
+Gnosis Pay uses a SafeWallet that's restricted by a delay module. Our factory creates another Safe{Wallet} with no owner addresses and just the PocketManager enabled.
+New pockets for different investment strategies and services are developed on top of a BasePocket contract we've developed and includes logic for authorizing calls from the PocketVault, set up, withdrawals and deposits. These are enabled as modules for the PocketVault (Safe modules)
 
-1. Login with your wallet on the Stake Garden website at [stakegarden.eth.limo](stakegarden.eth.limo)
+New protocols can build on top of the BasePocket to enable use cases for Gnosis Pay users. In this way, we've been able to integrate the following:
 
-2. Explore the homepage to discover different ways to build and customize your staking portfolio. You can choose the percentage and distribution that you'd like to put in your token basket. 
-
-3. Stake any amount of ETH, get daily staking rewards and use your collateralized token across the DeFi ecosystem and L2.
-
-4. Withdraw staked collaterals with rewards anytime.
-
--->
-
-## Installation 
-
-<!--
-
- To get started with Join installation, follow these steps:
-
-1. Clone the repo
-   ```sh
-   git clone https://github.com/StakeGarden/stakegarden/
-   ```
-2. Navigate to the project directory:
-   ```sh
-   cd join
-   ```
-3. Install the necessary dependencies:
-   ```js
-   yarn install
-   ```
-4.  Configure the environment variables:
-  * Rename the .env.example file to .env.
-  * Open the .env file and fill in the required configuration values.
-5. Start the development server:
-    ```js
-   yarn dev
-   ```
-6. Open your web browser and visit http://localhost:3000 to access the Join application.
-
-Please note that the above steps assume you have Node.
-Node and yarn (package manager) installed on your machine
-
-Start to cultivate your financial growth in the ever-expanding world of decentralized finance. Enjoy Stake Garden!
-
--->
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-<!-- USAGE EXAMPLES -->
-
-<!-- # Usage
-
- Acá va el demo en video y un par de bundles
-
-_For more examples, please refer to the [Documentation](https://example.com)_ 
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p> 
-
- -->
-
-<!-- CONTRIBUTING -->
-
-# Contributing
-
-<!--
-
-At StakeGarden, we believe that contributions from the open-source community are what make our project truly amazing. We appreciate any contributions you make and welcome your ideas, suggestions, and enhancements.
-
-If you have a suggestion or improvement that would help make Join even better, here's how you can contribute:
-
-1. Fork the Project
-2. Create a new branch for your feature or enhancement (`git checkout -b feature/stakegarden`).
-3. Commit your Changes (`git commit -m 'Add some stakegarden'`)
-4. Push to the Branch (`git push origin feature/stakegarden`)
-5. Open a Pull Request to submit your changes.
-
-We also encourage you to open an issue with the "enhancement" tag if you have any ideas or suggestions that you'd like to discuss with the community.
-
-Thank you for being part of the Stakegarden community and for helping us make a difference!
-
--->
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-<!-- LICENSE -->
-# License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+- Pocket limit orders using hooks in Uniswap V4 and Pancakeswap V4
+- Seamless liquidity between sDAI and EURe by enabling a user to make instant swaps through its Pocket.
+- Easy lending through Morpho vaults. A pocket deposits users funds into a morpho vault and is managed by the PocketManager.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 <!-- CONTACT -->
 
-<!-- 
 
-# Contact
 
-Push Chat Contact: [stakegarden.eth](https://app.push.org/chat)
+# Team
+
+
+- Nelson Galdeman ([@neeel_eth](https://twitter.com/neeel_eth)): Smart Contract Developer at [Swapr](https://twitter.com/Swapr_dapp) and [Stackly]( https://twitter.com/Stacklydapp).
+<br />  
+- Ernesto García ([@ernestognw](https://twitter.com/ernestognw)): Smart Contract Engineer at [OpenZeppelin](https://twitter.com/OpenZeppelin).
 <br />
-Project Link: [stakegarden Github](https://github.com/StakeGarden/stakegarden)
+- Angela Ocando ([@ocandocrypto](https://twitter.com/ocandocrypto)): Core Contributor at [Web3 Citizen](https://twitter.com/web3citizenxyz) and Arbitrum DAO Delegate.
 <br />
-
--->
-
-### Pocket Team
-
-
-Nelson Galdeman - [@neeel_eth](https://twitter.com/neeel_eth)
+- Jonathan Diaz ([@jonthdiaz](https://twitter.com/jonthdiaz)): Software Architect at Playvox and [WTF Academy Contributor](https://twitter.com/WTFAcademy_).
 <br />
-Angela Ocando - [@ocandocrypto](https://twitter.com/ocandocrypto) 
+Sebastian Guaqueta ([@scguaquetam](https://twitter.com/scguaquetam)): Frontent Integration (Stealth Company), [Push Protocol](https://twitter.com/pushprotocol) and [WTF Academy Contributor](https://twitter.com/WTFAcademy_).
 <br />
 
 
@@ -233,7 +156,6 @@ Angela Ocando - [@ocandocrypto](https://twitter.com/ocandocrypto)
 # Acknowledgments
 
 <!-- 
-
 
 
 We would like to express our gratitude to the following resources that have been invaluable in the development of Stake Garden:
@@ -253,31 +175,46 @@ These resources have provided valuable insights, tools, and inspiration througho
 
 
 
-<!-- MARKDOWN LINKS  CUIDADO ACÁ QUE DEBO CAMBIAr ESTO-->
+<!-- MARKDOWN LINKS -->
 
-[contributors-shield]:https://img.shields.io/github/contributors/StakeGarden/stakegarden.svg?style=for-the-badge
-[contributors-url]: https://github.com/StakeGarden/stakegarden/graphs/contributors
-[stars-shield]: https://img.shields.io/github/stars/StakeGarden/stakegarden.svg?style=for-the-badge
-[stars-url]:https://github.com/StakeGarden/stakegarden/stargazers
-[issues-shield]: https://img.shields.io/github/issues/StakeGarden/stakegarden.svg?style=for-the-badge
-[issues-url]: https://github.com/StakeGarden/stakegarden/issues
-<!-- [license-shield]: https://img.shields.io/github/license/sheva323/JOIN.svg?style=for-the-badge
-[license-url]: https://github.com/sheva323/JOIN/blob/main/LICENSE.txt -->
+[contributors-shield]: https://img.shields.io/github/contributors/EthPocketHQ/Pocket.svg?style=for-the-badge
 
-<!-- IMAGES -->
+[contributors-url]: https://github.com/EthPocketHQ/Pocket/graphs/contributors
 
-<!-- [product-screenshot]: images/product.png -->
+[stars-shield]: https://img.shields.io/github/stars/EthPocketHQ/Pocket.svg?style=for-the-badge
+
+[stars-url]: https://github.com/EthPocketHQ/Pocket/stargazers
+
+[issues-shield]: https://img.shields.io/github/issues/EthPocketHQ/Pocket.svg?style=for-the-badge&logoColor=white
+
+[issues-url]: https://github.com/EthPocketHQ/Pocket/issues
+
 
 <!-- SPONSORS -->
 
-[1inch.io]:https://img.shields.io/badge/1inch-741FE0?style=for-the-badge&logo=polybase&logoColor=black
-[1inch-url]:https://1inch.io
-[metamask.io]:https://img.shields.io/badge/metamask-EB9510?style=for-the-badge&logo=metamask&logoColor=white
-[Metamask-url]:https://metamask.io
-[thegraph.com]:https://img.shields.io/badge/thegraph-000000?style=for-the-badge&logo=TheGraph&logoColor=white
-[Thegraph-url]:https://thegraph.com
-[nouns.wtf]:https://img.shields.io/badge/nounsdao-36E000?style=for-the-badge&logo=nounsdao&logoColor=white
+
+[gnosispay.com]:https://img.shields.io/badge/gnosispay-6FAEF6?style=for-the-badge&logo=gnosispay&logoColor=white
+[gnosispay-url]:https://gnosispay.com
+
+[safe.global]:https://img.shields.io/badge/safe-6FAEF6?style=for-the-badge&logo=safe&logoColor=white
+[safe-url]:https://safe.global
+
+[uniswap.org]:https://img.shields.io/badge/uniswap-6FAEF6?style=for-the-badge&logo=uniswap&logoColor=white
+[uniswap-url]:https://uniswap.org
+
+[pancakeswap.finance]:https://img.shields.io/badge/pancakeswap-6FAEF6?style=for-the-badge&logo=pancakeswap&logoColor=white
+[pancakeswap-url]:https://pancakeswap.finance
+
+[morpho.org]:https://img.shields.io/badge/morpho-6FAEF6?style=for-the-badge&logo=morpho&logoColor=white
+[morpho-url]:https://morpho.org/
+
+[nouns.wtf]:https://img.shields.io/badge/nounsdao-6FAEF6?style=for-the-badge&logo=nounsdao&logoColor=white
 [Nouns-url]:https://nouns.wtf
 
-<!-- [Filecoin.io]:https://img.shields.io/badge/filecoin-40bec8?style=for-the-badge&logo=filecoin&logoColor=blue
-[Filecoin-url]:https://filecoin.io/ -->
+
+* [![Gnosis Pay][gnosispay.com]][gnosispay-url]
+* [![Safe][safe.global]][safe-url]
+* [![Uniswap][uniswap.org]][uniswap-url]
+* [![Pancakeswap][pancakeswap.finance]][pancakeswap-url]
+* [![Morpho][morpho.org]][morpho-url]
+* [![Nouns][nouns.wtf]][nouns-url]
