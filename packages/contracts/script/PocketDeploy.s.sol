@@ -5,6 +5,8 @@ import {PocketFactory} from "../src/PocketFactory.sol";
 import {BasePocketFactory} from "../src/base/BasePocketFactory.sol";
 import {MorphoPocket} from "../src/MorphoPocket.sol";
 import {SafeProxyFactory, SafeProxy} from "@safe/contracts/proxies/SafeProxyFactory.sol";
+import {LimitOrderPocket} from "../src/LimitOrderPocket.sol";
+import {IPoolManager} from "~/custom/LimitOrder.sol";
 
 contract DeployPocketFactory is Script {
     function run() external returns (PocketFactory) {
@@ -29,5 +31,16 @@ contract DeployMorphoPocket is Script {
         MorphoPocket morphoPocket = new MorphoPocket();
         vm.stopBroadcast();
         return morphoPocket;
+    }
+}
+
+contract DeployLimitOrder is Script {
+    function run() external returns (LimitOrderPocket) {
+        vm.startBroadcast();
+        LimitOrderPocket limitOrderPocket = new LimitOrderPocket(
+            IPoolManager(0x842Ea303D34028F7a18B774B2eF5245F3e0f5cFb)
+        );
+        vm.stopBroadcast();
+        return limitOrderPocket;
     }
 }

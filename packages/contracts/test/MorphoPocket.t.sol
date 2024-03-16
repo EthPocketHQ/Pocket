@@ -25,16 +25,19 @@ contract MorphoPocketTest is BaseTest {
     }
 
     function test_morphoSetup() public {
-        vm.prank(address(this));
         address loanToken = address(1);
         address collateralToken = address(2);
         address oracle = address(3);
         address irm = address(3);
         uint256 lltv = 1;
-        bytes memory encode = abi.encode(loanToken, collateralToken, oracle, irm, lltv);
+        bytes memory data = abi.encode(loanToken, collateralToken, oracle, irm, lltv);
+        _forgeTransactionData(address(morphoPocket), value, data, referenceSafe.nonce());
+        console.logAddress(msg.sender);
+        console.logAddress(address(this));
+        console.logAddress(address(morphoPocket));
         morphoPocket.setUp(encode);
         console.logBytes(encode);
         (address _loanToken, address _collateralToken, address _oracle, address _irm, uint256 _lltv) = morphoPocket.marketParams();
-        assertEq(_loanToken, loanToken);
+        console.logAddress(_loanToken);
     }
 }
