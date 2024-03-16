@@ -2,57 +2,58 @@
 pragma solidity ^0.8.25;
 
 import {SelfAuthorized} from "@safe/contracts/common/SelfAuthorized.sol";
-import {IBaseContract} from "./interface/IBaseContract.sol";
 import {IMorpho, Id, MarketParams} from "@morpho-blue/interfaces/IMorpho.sol";
+import {BasePocket} from "./base/BasePocket.sol";
+import {IMorpho} from "@morpho-blue/interfaces/IMorpho.sol";
+
 import {MorphoBalancesLib} from "@morpho-blue/libraries/periphery/MorphoBalancesLib.sol";
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {MarketParamsLib} from "@morpho-blue/libraries/MarketParamsLib.sol";
 import {SharesMathLib} from "@morpho-blue/libraries/SharesMathLib.sol";
 
-contract MorphoPocket is IBaseContract, SelfAuthorized {
+contract MorphoPocket is BasePocket {
     using MorphoBalancesLib for IMorpho;
     using SafeERC20 for ERC20;
     using SharesMathLib for uint256;
-    address private constant ORAGLE = 0x2a01EB9496094dA03c4E364Def50f5aD1280AD72;
-    address private constant IRM = 0x870aC11D48B15DB9a138Cf899d20F13F79Ba00BC;
-    address private constant COLLATERAL_TOKEN = 0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0;
-    address private constant LOAN_TOKEN = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
-    uint256 private constant LLTV = 945000000000000000;
 
-    MarketParams public marketParams =
-        MarketParams({loanToken: LOAN_TOKEN, collateralToken: COLLATERAL_TOKEN, oracle: ORAGLE, irm: IRM, lltv: LLTV});
+    address private constant MORPHO_ADDRRESS = 0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb;
+
+    MarketParams public marketParams;
 
     /* IMMUTABLES */
-    IMorpho public immutable morpho;
+    IMorpho public morpho;
 
     /* CONSTRUCTOR */
-    constructor(address morphoAddress) {
-        morpho = IMorpho(morphoAddress);
+    constructor() {
+        morpho = IMorpho(MORPHO_ADDRRESS);
+        _disableInitializers();
+    }
+
+    function setUp(bytes memory data) public virtual override authorized initializer {
+        (address oracle, address irm, address collateralToken, address loanToken, uint lltv) = abi.decode(
+            data,
+            (address, address, address, address, uint256)
+        );
+        marketParams = MarketParams({
+            loanToken: loanToken,
+            collateralToken: collateralToken,
+            oracle: oracle,
+            irm: irm,
+            lltv: lltv
+        });
     }
     function getBalance() public view returns (uint256) {
         return address(this).balance;
     }
 
-    function deposit(address token, uint256 amount) public {
-        supply(marketParams, amount);
-    }
-    function withdraw(address token, uint256 amount) public authorized {}
-    function getUserSupply(MarketParams memory _marketParams, address token) public authorized returns (uint256) {
-        return supplyAsssetUser(marketParams, msg.sender);
+    function deposit(uint256 amount) public authorized {
+        supply(amount);
     }
 
-    /// @notice Handles the supply of assets by the caller to a specific market.
-    /// @param _marketParams The parameters of the market.
-    /// @param amount The amount of assets the user is supplying.
-    /// @return assetsSupplied The actual amount of assets supplied.
-    /// @return sharesSupplied The shares supplied in return for the assets.
-    function supply(
-        MarketParams memory _marketParams,
-        uint256 amount
-    ) public returns (uint256 assetsSupplied, uint256 sharesSupplied) {
-        ERC20(_markeParams.loanToken).forceApprove(address(morpho), type(uint256).max);
-        ERC20(_marketParams.loanToken).safeTransferFrom(msg.sender, address(this), amount);
+    function supply(uint256 amount) public returns (uint256 assetsSupplied, uint256 sharesSupplied) {
+        ERC20(marketParams.loanToken).forceApprove(address(morpho), type(uint256).max);
+        ERC20(marketParams.loanToken).safeTransferFrom(msg.sender, address(this), amount);
 
         uint256 shares;
         address onBehalf = msg.sender;
@@ -60,7 +61,18 @@ contract MorphoPocket is IBaseContract, SelfAuthorized {
         (assetsSupplied, sharesSupplied) = morpho.supply(marketParams, amount, shares, onBehalf, hex"");
     }
 
-    function supplyAsssetUser(MarketParams memory _marketParams, address user) public view returns (uint256 totalSupplyAssets) {
+    function supplyCollateral(uint256 amount) public {
+        ERC20(marketParams.collateralToken).forceApprove(address(morpho), type(uint256).max);
+        ERC20(marketParams.collateralToken).safeTransferFrom(msg.sender, address(this), amount);
+        address onBehalf = msg.sender;
+        morpho.supplyCollateral(marketParams, amount, onBehalf, hex"");
+    }
+
+    function supplyAsssetUser(address user) public view returns (uint256 totalSupplyAssets) {
         totalSupplyAssets = morpho.expectedSupplyAssets(marketParams, user);
+    }
+
+    function getUserSupply() public view authorized returns (uint256) {
+        return supplyAsssetUser(msg.sender);
     }
 }

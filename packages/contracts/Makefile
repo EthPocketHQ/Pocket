@@ -21,3 +21,12 @@ deploy-balance:
 
 deploy-ganache:
 	forge script script/DeployMorpho.s.sol:DeployMorpho --rpc-url $(GANACHE_RPC_URL) --private-key $(GANACHE_PRIVATE_KEY) --broadcast --use /Users/jonathan/.cargo/bin/solc -vvvvv
+
+deploy-pocket-factory:
+	forge script script/PocketDeploy.s.sol:DeployPocketFactory --rpc-url $(CUSTOM_RPC_URL) --private-key $(CUSTOM_PRIVATE_KEY) --broadcast  --use /Users/jonathan/.cargo/bin/solc --ffi -vvvvv
+
+deploy-pocket-base-factory:
+	forge script script/PocketDeploy.s.sol:DeployBasePocketFactory --rpc-url $(CUSTOM_RPC_URL) --private-key $(CUSTOM_PRIVATE_KEY) --broadcast  --use /Users/jonathan/.cargo/bin/solc --ffi -vvvvv
+
+deploy-morpho-pocket:
+	forge script script/PocketDeploy.s.sol:DeployMorphoPocket --rpc-url $(CUSTOM_RPC_URL) --private-key $(CUSTOM_PRIVATE_KEY) --broadcast  --use /Users/jonathan/.cargo/bin/solc --ffi -vvvvv
