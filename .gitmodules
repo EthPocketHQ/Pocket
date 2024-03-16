@@ -9,3 +9,15 @@
 [submodule "lib/safe-contracts"]
 	path = lib/safe-contracts
 	url = https://github.com/safe-global/safe-contracts
+[submodule "lib/morpho-blue"]
+	path = lib/morpho-blue
+	url = https://github.com/morpho-org/morpho-blue
+[submodule "packages/contracts/lib/safe-smart-account"]
+	path = packages/contracts/lib/safe-smart-account
+	url = https://github.com/safe-global/safe-smart-account
+[submodule "lib/safe-smart-account"]
+	path = lib/safe-smart-account
+	url = https://github.com/safe-global/safe-smart-account
+[submodule "packages/contracts/lib/morpho-blue"]
+	path = packages/contracts/lib/morpho-blue
+	url = https://github.com/morpho-org/morpho-blue
