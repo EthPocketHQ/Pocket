@@ -1,6 +1,6 @@
-@safe/contracts/=lib/safe-smart-account/contracts/
+@safe/contracts=lib/safe-contracts/contracts
 @openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/
-@openzeppelin/foundry-upgrades/=lib/openzeppelin-foundry-upgrades/src/
-@morpho-blue/=lib/morpho-blue/src/
+@openzeppelin/foundry-upgrades/=lib/openzeppelin-foundry-upgrades/src
+@morpho-blue/=lib/morpho-blue/src
 forge-std/=lib/forge-std/src/
 ~/=src/
