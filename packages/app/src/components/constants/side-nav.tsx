@@ -44,13 +44,13 @@ export const NavItems: NavItem[] = [
   {
     title: "Settings",
     icon: Settings,
-    href: "/",
+    href: "/settings",
     color: "text-sky-500",
   },
   {
     title: "Narco Wallet",
     icon: DollarSign,
-    href: "/",
+    href: "/dontdoit",
     color: "text-green-500",
   },
 ];
