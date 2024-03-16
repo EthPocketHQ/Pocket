@@ -10,7 +10,7 @@ import {Initializable} from "@openzeppelin/contracts/proxy/utils/Initializable.s
 /// from a PocketVault
 abstract contract BasePocket is SelfAuthorized, ExecutionContext, Initializable {
     /// @notice Set up the pocket and enables it as a module on its corresponding vault
-    function setUp() public virtual authorized initializer {
+    function setUp(bytes memory) public virtual authorized initializer {
         ModuleManager(msg.sender).enableModule(__self);
     }
 
