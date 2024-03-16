@@ -8,21 +8,20 @@ import {IPoolManager} from "@uniswap/v4-core/src/interfaces/IPoolManager.sol";
 import {Initializable} from "@openzeppelin/contracts/proxy/utils/Initializable.sol";
 import {ILockCallback} from "@uniswap/v4-core/src/interfaces/callback/ILockCallback.sol";
 
-error MethodNotImplemented();
-
 contract SwapPocket is BasePocket {
     IPoolManager public poolManager;
+    error MethodNotImplemented();
 
     function setupPocket(IPoolManager _poolManager) public initializer {
         poolManager = _poolManager;
     }
 
-    function deposit(bytes memory data) external override authorized {
-        error MethodNotImplemented();
+    function deposit(bytes memory) external view override authorized {
+        revert MethodNotImplemented();
     }
 
-    function withdraw(bytes memory data) external override authorized {
-        error MethodNotImplemented();
+    function withdraw(bytes memory) external view override authorized {
+        revert MethodNotImplemented();
     }
 
     function execute(bytes memory data) external override authorized {
