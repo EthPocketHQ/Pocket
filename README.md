@@ -55,9 +55,8 @@ No olvidar subir el link del demo
 2. [Demo](#demo)
 3. [Built With](#built-with)
 4. [How it works](#how-it-works)
-5. [Usage](#usage)
-6. [Team](#team)
-7. [Acknowledgments](#acknowledgments)
+5. [Team](#team)
+6. [Acknowledgments](#acknowledgments)
 
 <br />
 
@@ -136,15 +135,15 @@ New protocols can build on top of the BasePocket to enable use cases for Gnosis 
 # Team
 
 
-- Nelson Galdeman ([@neeel_eth](https://twitter.com/neeel_eth)): Smart Contract Developer at [Swapr](https://twitter.com/Swapr_dapp) and [Stackly]( https://twitter.com/Stacklydapp).
-<br />  
-- Ernesto García ([@ernestognw](https://twitter.com/ernestognw)): Smart Contract Engineer at [OpenZeppelin](https://twitter.com/OpenZeppelin).
+-Nelson Galdeman ([@neeel_eth](https://twitter.com/neeel_eth)): Smart Contract Developer at [Swapr](https://twitter.com/Swapr_dapp) and [Stackly]( https://twitter.com/Stacklydapp).
 <br />
-- Angela Ocando ([@ocandocrypto](https://twitter.com/ocandocrypto)): Core Contributor at [Web3 Citizen](https://twitter.com/web3citizenxyz) and Arbitrum DAO Delegate.
+-Ernesto García ([@ernestognw](https://twitter.com/ernestognw)): Smart Contract Engineer at [OpenZeppelin](https://twitter.com/OpenZeppelin).
 <br />
-- Jonathan Diaz ([@jonthdiaz](https://twitter.com/jonthdiaz)): Software Architect at Playvox and [WTF Academy Contributor](https://twitter.com/WTFAcademy_).
+-Angela Ocando ([@ocandocrypto](https://twitter.com/ocandocrypto)): Core Contributor at [Web3 Citizen](https://twitter.com/web3citizenxyz) and Arbitrum DAO Delegate.
 <br />
-Sebastian Guaqueta ([@scguaquetam](https://twitter.com/scguaquetam)): Frontent Integration (Stealth Company), [Push Protocol](https://twitter.com/pushprotocol) and [WTF Academy Contributor](https://twitter.com/WTFAcademy_).
+-Jonathan Diaz ([@jonthdiaz](https://twitter.com/jonthdiaz)): Software Architect at Playvox and [WTF Academy Contributor](https://twitter.com/WTFAcademy_).
+<br />
+-Sebastian Guaqueta ([@scguaquetam](https://twitter.com/scguaquetam)): Frontent Integration (Stealth Company), [Push Protocol](https://twitter.com/pushprotocol) and [WTF Academy Contributor](https://twitter.com/WTFAcademy_).
 <br />
 
 
