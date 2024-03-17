@@ -19,8 +19,7 @@ contract PocketManager is Nonces, Initializable {
     error InvalidPocketSignature(bytes signature);
 
     // keccak256(abi.encode(uint256(keccak256("pocket.storage.PocketManager")) - 1)) & ~bytes32(uint256(0xff))
-    bytes32 constant PocketManagerStorageLocation =
-        0x10402ce5b06e792b45757dab2f6ba192bb7761b5295dc2a2997e5aaf4ff03400;
+    bytes32 constant PocketManagerStorageLocation = 0x10402ce5b06e792b45757dab2f6ba192bb7761b5295dc2a2997e5aaf4ff03400;
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
@@ -30,10 +29,7 @@ contract PocketManager is Nonces, Initializable {
     /// @notice Initializes the contract with a reference safe
     /// @param _referenceSafe The address of the Safe{Wallet} Smart Account to obey permissions from
     /// @param _pocketVault The address of the Safe{Wallet} owned by this PocketManager
-    function setupPocket(
-        address _referenceSafe,
-        address _pocketVault
-    ) public initializer {
+    function setupPocket(address _referenceSafe, address _pocketVault) public initializer {
         _getPocketManagerStorage()._referenceSafe = _referenceSafe;
         _getPocketManagerStorage()._pocketVault = _pocketVault;
     }
@@ -63,6 +59,7 @@ contract PocketManager is Nonces, Initializable {
     function executeTransaction(
         address to,
         uint256 value,
+        Enum.Operation operation,
         bytes calldata data,
         bytes memory signatures
     ) external virtual returns (bool) {
@@ -77,7 +74,7 @@ contract PocketManager is Nonces, Initializable {
             to,
             value,
             data,
-            Enum.Operation.Call,
+            operation,
             0,
             // Payment info
             0,
@@ -88,18 +85,9 @@ contract PocketManager is Nonces, Initializable {
             currentNonce
         );
 
-        referenceSafe().checkSignatures(
-            keccak256(txHashData),
-            txHashData,
-            signatures
-        );
+        referenceSafe().checkSignatures(keccak256(txHashData), txHashData, signatures);
 
-        bool success = pocketSafe.execTransactionFromModule(
-            to,
-            value,
-            data,
-            Enum.Operation.Call
-        );
+        bool success = pocketSafe.execTransactionFromModule(to, value, data, operation);
 
         emit ExecutedPocketTransaction(currentNonce, success);
 
@@ -107,11 +95,7 @@ contract PocketManager is Nonces, Initializable {
     }
 
     /// @notice Get EIP-7201 storage
-    function _getPocketManagerStorage()
-        private
-        pure
-        returns (PocketManagerStorage storage $)
-    {
+    function _getPocketManagerStorage() private pure returns (PocketManagerStorage storage $) {
         assembly {
             $.slot := PocketManagerStorageLocation
         }
