@@ -225,10 +225,3 @@ These powerful partners have helped us create a seamless user experience and ens
 [nouns.wtf]:https://img.shields.io/badge/nounsdao-6FAEF6?style=for-the-badge&logo=nounsdao&logoColor=white
 [Nouns-url]:https://nouns.wtf
 
-
-* [![Gnosis Pay][gnosispay.com]][gnosispay-url]
-* [![Safe][safe.global]][safe-url]
-* [![Uniswap][uniswap.org]][uniswap-url]
-* [![Pancakeswap][pancakeswap.finance]][pancakeswap-url]
-* [![Morpho][morpho.org]][morpho-url]
-* [![Nouns][nouns.wtf]][nouns-url]
