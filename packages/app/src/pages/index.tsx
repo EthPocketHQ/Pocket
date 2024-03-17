@@ -13,7 +13,11 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Overview } from "@/components/dashboard/overview";
 import { RecentSales } from "@/components/dashboard/recent-sales";
 import PocketComponent from "@/components/pocket/Pocket";
-
+export enum PocketType {
+  UNISWAP = "uniswap",
+  MORPHO = "morpho",
+  PANCAKESWAP = "pancakeswap",
+}
 const Home = () => {
   return (
     <div className="flex h-full flex-col">
@@ -50,9 +54,18 @@ const Home = () => {
               </Card>
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              <PocketComponent />
-              <PocketComponent />
-              <PocketComponent />
+              <PocketComponent 
+                pocketType={PocketType.UNISWAP}
+                title="Uniswap"
+              />
+              <PocketComponent 
+                pocketType={PocketType.MORPHO}
+                title="Morpho"
+              />
+              <PocketComponent 
+                pocketType={PocketType.PANCAKESWAP}
+                title="Pancakeswap"
+              />
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
               <Card className="col-span-4">
