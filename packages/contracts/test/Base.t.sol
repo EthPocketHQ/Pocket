@@ -49,6 +49,7 @@ contract BaseTest is Test {
     function _forgeTransactionData(
         address to,
         uint256 value,
+        Enum.Operation operation,
         bytes calldata data,
         uint256 nonce
     ) internal view returns (bytes32 txHash, bytes memory signatures) {
@@ -57,7 +58,7 @@ contract BaseTest is Test {
             to,
             value,
             data,
-            Enum.Operation.Call,
+            operation,
             0,
             // Payment info
             0,

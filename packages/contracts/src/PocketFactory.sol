@@ -42,7 +42,7 @@ contract PocketFactory is ExecutionContext {
 
         pocketManager = Clones.predictDeterministicAddress(_pocketManagerMasterCopy, salt, pocketVault);
 
-        emit PocketCreated(referenceSafe, pocketVault, _pocketManagerMasterCopy);
+        emit PocketCreated(referenceSafe, pocketVault, pocketManager);
     }
 
     /// @notice Creates a new Pocket contract and enables it as a module in a Safe.
