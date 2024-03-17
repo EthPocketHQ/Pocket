@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import Modal from "../modal/Modal";
 import { PocketType } from "@/pages";
@@ -31,6 +31,32 @@ const PocketComponent = ({
     setBalance(balanceCookie ? Number(balanceCookie) : 0);
   }, [cookieKey, pocketType, balanceKey]);
 
+  const texts = useMemo(() => {
+    switch (pocketType) {
+      case PocketType.UNISWAP:
+        return {
+          deposit: "Place",
+          withdraw: "Withdraw",
+          execute: "Kill",
+          activate: "Activate",
+        };
+      case PocketType.MORPHO:
+        return {
+          deposit: "Lend WETH",
+          withdraw: "Withdraw WETH",
+          execute: "",
+          activate: "Activate",
+        };
+      case PocketType.PANCAKESWAP:
+        return {
+          deposit: "Place",
+          withdraw: "Withdraw",
+          execute: "Kill",
+          activate: "Activate",
+        };
+    }
+  }, [pocketType]);
+
   return (
     <Card className="h-40">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -53,25 +79,31 @@ const PocketComponent = ({
         <p className="text-xs text-muted-foreground">+13.1% from last month</p>
         {/* Botones añadidos aquí */}
         {isActive ? (
-          <div className="mt-2 flex flex max-w-sm justify-center space-x-2">
-            <button
-              className="rounded-md bg-blue-500 px-4 py-2 text-sm text-white"
-              onClick={() => setDepositOpen(true)}
-            >
-              Deposit
-            </button>
-            <button
-              className="rounded-md bg-green-500 px-4 py-2 text-sm text-white"
-              onClick={() => setWithdrawOpen(true)}
-            >
-              Withdraw
-            </button>
-            <button
-              className="rounded-md bg-teal-500 px-4 py-2 text-sm text-white"
-              onClick={() => setExecuteOpen(true)}
-            >
-              Execute
-            </button>
+          <div className="mt-2 flex w-full max-w-sm justify-center space-x-2">
+            {texts.deposit && (
+              <button
+                className="flex-1 rounded-md bg-blue-500 px-4 py-2 text-sm text-white"
+                onClick={() => setDepositOpen(true)}
+              >
+                {texts.deposit}
+              </button>
+            )}
+            {texts.withdraw && (
+              <button
+                className="flex-1 rounded-md bg-green-500 px-4 py-2 text-sm text-white"
+                onClick={() => setWithdrawOpen(true)}
+              >
+                {texts.withdraw}
+              </button>
+            )}
+            {texts.execute && (
+              <button
+                className="flex-1 rounded-md bg-teal-500 px-4 py-2 text-sm text-white"
+                onClick={() => setExecuteOpen(true)}
+              >
+                {texts.execute}
+              </button>
+            )}
           </div>
         ) : (
           <div className="mt-2 flex w-full justify-center">
