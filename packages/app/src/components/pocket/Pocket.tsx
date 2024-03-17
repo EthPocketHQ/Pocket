@@ -86,7 +86,7 @@ const PocketComponent = ({
         {/* Botones añadidos aquí */}
         {isActive ? (
           <div className="mt-2 flex w-full max-w-sm justify-center space-x-2">
-            {texts.deposit && (
+            {texts && texts.deposit && (
               <button
                 className="flex-1 rounded-md bg-blue-500 px-4 py-2 text-sm text-white"
                 onClick={() => setDepositOpen(true)}
@@ -94,7 +94,7 @@ const PocketComponent = ({
                 {texts.deposit}
               </button>
             )}
-            {texts.withdraw && (
+            {texts && texts.withdraw && (
               <button
                 className="flex-1 rounded-md bg-green-500 px-4 py-2 text-sm text-white"
                 onClick={() => setWithdrawOpen(true)}
@@ -102,7 +102,7 @@ const PocketComponent = ({
                 {texts.withdraw}
               </button>
             )}
-            {texts.execute && (
+            {texts && texts.execute && (
               <button
                 className="flex-1 rounded-md bg-teal-500 px-4 py-2 text-sm text-white"
                 onClick={() => setExecuteOpen(true)}
