@@ -29,7 +29,13 @@ const PocketComponent = ({
     setIsActive(!!Cookies.get(cookieKey));
     const balanceCookie = Cookies.get(balanceKey);
     setBalance(balanceCookie ? Number(balanceCookie) : 0);
-  }, [cookieKey, pocketType, balanceKey]);
+  }, [
+    cookieKey,
+    pocketType,
+    balanceKey,
+    Cookies.get(cookieKey),
+    Cookies.get(balanceKey),
+  ]);
 
   const texts = useMemo(() => {
     switch (pocketType) {

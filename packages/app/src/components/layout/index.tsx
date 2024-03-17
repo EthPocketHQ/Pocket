@@ -26,6 +26,12 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
   const addRecentTransaction = useAddRecentTransaction();
   useWatchPendingTransactions({
     onTransactions(transactions) {
+      transactions.forEach((transaction) => {
+        addRecentTransaction({
+          hash: transaction as `0x${string}`,
+          description: "New transaction",
+        });
+      });
       console.log("New transactions!", transactions);
     },
   });
@@ -61,10 +67,6 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
         onSuccess: (result) => {
           console.log("Transaction successful:", result);
           Cookies.set("pocketManager", safeAddress);
-          addRecentTransaction({
-            hash: result,
-            description: "Create Pocket",
-          });
           setIsLoaded(true);
           setLoadingCreation(false);
         },

@@ -14,6 +14,7 @@ import { Overview } from "@/components/dashboard/overview";
 import { RecentSales } from "@/components/dashboard/recent-sales";
 import PocketComponent from "@/components/pocket/Pocket";
 export enum PocketType {
+  SWAP = "swap",
   UNISWAP = "uniswap",
   MORPHO = "morpho",
   PANCAKESWAP = "pancakeswap",
@@ -56,19 +57,25 @@ const Home = () => {
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               <PocketComponent
                 pocketType={PocketType.UNISWAP}
-                title="Uniswap"
+                title="Uniswap Hook Limit Order"
                 cookieKey="uniswapLimitOrderActivated"
                 balanceKey="uniswapBalance"
               />
               <PocketComponent
                 pocketType={PocketType.MORPHO}
-                title="Morpho"
+                title="Morpho WETH Lending"
                 cookieKey="morphoActived"
                 balanceKey="morphoBalance"
               />
               <PocketComponent
                 pocketType={PocketType.PANCAKESWAP}
-                title="Pancakeswap"
+                title="Pancakeswap Hook Limit Order"
+                cookieKey="pancakeswapLimitOrderActivated"
+                balanceKey="pancakeSwapBalance"
+              />
+              <PocketComponent
+                pocketType={PocketType.SWAP}
+                title="Uniswap SDAI/EURe"
                 cookieKey="pancakeswapLimitOrderActivated"
                 balanceKey="pancakeSwapBalance"
               />
