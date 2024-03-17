@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 
 import {
   CardHeader,
@@ -7,7 +8,7 @@ import {
   CardDescription,
   Card,
 } from "@/components/ui/card";
-// import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 // import { CalendarDateRangePicker } from "@/components/dashboard/date-range-picker";
 import { Overview } from "@/components/dashboard/overview";
@@ -20,6 +21,8 @@ export enum PocketType {
   PANCAKESWAP = "pancakeswap",
 }
 const Home = () => {
+  const [allPocketsBalance, setAllPocketsBalance] = useState("0");
+
   return (
     <div className="flex h-full flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
@@ -44,13 +47,25 @@ const Home = () => {
               <Card className="col-span-4">
                 <CardHeader>
                   <CardTitle>All My Pockets</CardTitle>
-                  <CardDescription>All your pockets.</CardDescription>
+                  <CardDescription>
+                    All your pockets. 0x677C971acCD036415B6F76a80F21e6a8A064e210
+                  </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div className="text-l font-bold">$45,231.89</div>
-                  <p className="text-xs text-muted-foreground">
-                    +20.1% from last month
-                  </p>
+                <CardContent className="flex">
+                  <div>
+                    <div className="text-l font-bold">{allPocketsBalance}</div>
+                    <p className="text-xs text-muted-foreground">
+                      +20.1% from last month
+                    </p>
+                  </div>
+                  <Button
+                    className="ml-auto"
+                    size="sm"
+                    variant="outline"
+                    onClick={() => setAllPocketsBalance("$3792.12")}
+                  >
+                    Refresh
+                  </Button>
                 </CardContent>
               </Card>
             </div>

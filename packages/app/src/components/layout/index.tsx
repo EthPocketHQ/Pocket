@@ -83,15 +83,15 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
     const receipt = await client?.getTransactionReceipt({ hash });
     console.log(receipt);
 
-    const logs : any = parseEventLogs({
+    const logs: any = parseEventLogs({
       abi: PocketFactoryAbi.abi,
       eventName: "PocketCreated",
       logs: receipt?.logs ?? [],
     });
 
     console.log(logs);
-    if(logs[0] === undefined) return;
-    
+    if (logs[0] === undefined) return;
+
     const argsStringify = JSON.stringify(logs[0].args);
     console.log("argsStringify is ", argsStringify);
     Cookies.set("argsStringify", argsStringify);
@@ -99,14 +99,16 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
   const LoadYourSafe = () => {
     return (
       <div className="flex h-full flex-col items-center justify-center">
-        <h1 className="text-4xl font-bold">Welcome to Gnosis Safe</h1>
+        <h1 className="text-4xl font-bold">
+          Create your pocket with your Gnosis Pay address
+        </h1>
         <p className="text-center text-lg text-muted-foreground">
-          {"You don't have any pocket yet. Import your Safe to get started."}
+          {"You don't have any pocket yet"}
         </p>
         <div className="flex w-full flex-col items-center  space-y-2">
           <input
             type="text"
-            placeholder="Enter your Safe address"
+            placeholder="Enter your Gnosis Pay address"
             value={safeAddress}
             onChange={(e) => onChangeAddress(e.target.value)}
             className="mt-4 w-full max-w-md rounded-md border-2 border-blue-500 px-4 py-2 text-gray-700 focus:border-blue-500 focus:ring-blue-500"
@@ -121,7 +123,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
             }
             disabled={!buttonEnabled || loadingCreation}
           >
-            {loadingCreation ? "Creating ..." : "Load Safe"}
+            {loadingCreation ? "Creating ..." : "Load Gnosis Pay"}
           </button>
         </div>
       </div>
