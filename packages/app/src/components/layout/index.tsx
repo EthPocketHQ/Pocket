@@ -5,23 +5,25 @@ import Cookies from "js-cookie";
 import { useWriteContract } from "wagmi";
 import PocketFactoryAbi from "../../utils/abi/PocketFactory.json";
 import { ethers } from "ethers";
-import { Web3Provider } from "@ethersproject/providers";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
-import { useWatchPendingTransactions } from 'wagmi'
+import { useWatchPendingTransactions } from "wagmi";
+import toast from "react-hot-toast";
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   const { writeContract, data } = useWriteContract();
   const [isLoaded, setIsLoaded] = useState(false);
   const [safeAddress, setSafeAddress] = useState("");
+  const [buttonEnabled, setButtonEnabled] = useState(false);
+  const [loadingCreation, setLoadingCreation] = useState(false);
   const PocketFactoryAddress = "0x4ba376c825aCC1C3bb0DeAb3663d735A226a9f14";
   const addRecentTransaction = useAddRecentTransaction();
   useWatchPendingTransactions({
     onTransactions(transactions) {
-      console.log('New transactions!', transactions)
+      console.log("New transactions!", transactions);
     },
-  })
+  });
   useEffect(() => {
-    const pocket = Cookies.get("pocket");
+    const pocket = Cookies.get("pocketManager");
     if (pocket) {
       setIsLoaded(true);
     }
@@ -30,6 +32,13 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
     console.log("data onwrite is ", data);
   }, [data]);
   const handleLoadSafe = () => {
+    const isValid = ethers.isAddress(safeAddress);
+    if (!isValid) {
+      toast.error("Invalid Safe address");
+      alert("Invalid Safe address");
+      return;
+    }
+    setLoadingCreation(true);
     const random32Bytes = ethers.hexlify(ethers.randomBytes(32));
     writeContract(
       {
@@ -44,12 +53,14 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
           Cookies.set("pocketManager", safeAddress);
           addRecentTransaction({
             hash: result,
-            description: 'Create Pocket',
+            description: "Create Pocket",
           });
           setIsLoaded(true);
+          setLoadingCreation(false);
         },
         onError: (error) => {
           console.error("Transaction error:", error);
+          setLoadingCreation(false);
         },
       }
     );
@@ -66,19 +77,32 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
             type="text"
             placeholder="Enter your Safe address"
             value={safeAddress}
-            onChange={(e) => setSafeAddress(e.target.value)}
+            onChange={(e) => onChangeAddress(e.target.value)}
             className="mt-4 w-full max-w-md rounded-md border-2 border-blue-500 px-4 py-2 text-gray-700 focus:border-blue-500 focus:ring-blue-500"
             style={{ borderColor: "#4F46E5", borderWidth: "2px" }}
           />
           <button
             onClick={handleLoadSafe}
-            className="rounded-md border bg-blue-600 px-6 py-2 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            className={
+              !buttonEnabled ? "rounded-md border bg-gray-600 px-6 py-2 text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+              : "rounded-md border bg-blue-600 px-6 py-2 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            }
+            disabled={!buttonEnabled || loadingCreation}
           >
-            Load Safe
+            {loadingCreation ? 'Creating ...' : 'Load Safe'}
           </button>
         </div>
       </div>
     );
+  };
+  const onChangeAddress = (address: string) => {
+    console.log("entered onChangeAddress function");
+
+    console.log("e is ", address);
+    const isValid = ethers.isAddress(address);
+    console.log("isValid is ", isValid);
+    setButtonEnabled(isValid);
+    setSafeAddress(address);
   };
   return (
     <>

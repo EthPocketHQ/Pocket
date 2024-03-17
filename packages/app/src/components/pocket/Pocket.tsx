@@ -1,16 +1,24 @@
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import Modal from "../modal/Modal";
+import { PocketType } from "@/pages";
+import ActivateModal from "../modal/Activate";
 
-const PocketComponent = () => {
-  const [isActive, setIsActive] = useState(true);
+type Props = {
+  pocketType: PocketType;
+  title : string;
+};
+
+const PocketComponent = ({pocketType, title}:Props) => {
+  const [isActive, setIsActive] = useState(false);
   const [isDepositOpen, setDepositOpen] = useState(false);
   const [isWithdrawOpen, setWithdrawOpen] = useState(false);
   const [isExecuteOpen, setExecuteOpen] = useState(false);
+  const [isActivateOpen, setActivateOpen] = useState(false);
   return (
     <Card className="h-40">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">Pocket 1</CardTitle>
+        <CardTitle className="text-sm font-medium">{`${title} Pocket`}</CardTitle>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -51,7 +59,9 @@ const PocketComponent = () => {
           </div>
         ) : (
           <div className="flex justify-center w-full mt-2">
-            <button className="text-m rounded-md bg-green-500 px-4 py-2 text-white">
+            <button 
+            onClick={() => setActivateOpen(true)}
+              className="text-m rounded-md bg-green-500 px-4 py-2 text-white">
               Activate
             </button>
           </div>
@@ -64,6 +74,12 @@ const PocketComponent = () => {
         </Modal>
         <Modal isOpen={isExecuteOpen} closeModal={() => setExecuteOpen(false)} title="Execute">
           <div>test</div>
+        </Modal>
+        <Modal isOpen={isActivateOpen} closeModal={() => setActivateOpen(false)} title="Activate Pocket"
+        >
+          <ActivateModal 
+            type={pocketType}
+          />
         </Modal>
       </CardContent>
     </Card>
