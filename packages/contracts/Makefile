@@ -30,3 +30,6 @@ deploy-pocket-base-factory:
 
 deploy-morpho-pocket:
 	forge script script/PocketDeploy.s.sol:DeployMorphoPocket --rpc-url $(CUSTOM_RPC_URL) --private-key $(CUSTOM_PRIVATE_KEY) --broadcast  --use /Users/jonathan/.cargo/bin/solc --ffi -vvvvv
+
+deploy-limit-order:
+	forge script script/PocketDeploy.s.sol:DeployLimitOrder --rpc-url $(CUSTOM_RPC_URL) --private-key $(CUSTOM_PRIVATE_KEY) --broadcast  --use /Users/jonathan/.cargo/bin/solc --ffi -vvvvv
