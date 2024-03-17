@@ -74,7 +74,7 @@ const Home = () => {
               />
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-              <Card className="col-span-4">
+              <Card className="col-span-7">
                 <CardHeader>
                   <CardTitle>Overview</CardTitle>
                 </CardHeader>
@@ -82,7 +82,7 @@ const Home = () => {
                   <Overview />
                 </CardContent>
               </Card>
-              <Card className="col-span-3">
+              {/* <Card className="col-span-3">
                 <CardHeader>
                   <CardTitle>Recent Movements</CardTitle>
                   <CardDescription>
@@ -92,7 +92,7 @@ const Home = () => {
                 <CardContent>
                   <RecentSales />
                 </CardContent>
-              </Card>
+              </Card> */}
             </div>
           </TabsContent>
         </Tabs>

@@ -1,8 +1,6 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
-import { api } from "@/utils/api";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -23,20 +21,6 @@ export function CellAction({ data }: CellActionProps) {
   const router = useRouter();
   const [alertModalOpen, setAlertModalOpen] = useState(false);
 
-  const { refetch } = api.employee.getAll.useQuery(undefined, {
-    enabled: false,
-  });
-
-  const { mutate: deleteEmployee, isLoading: deleteEmployeeIsLoading } =
-    api.employee.delete.useMutation({
-      onError: (err) => {
-        toast.error(err.message);
-      },
-      onSuccess: async (data) => {
-        toast.success("Delete Employee success");
-        await refetch();
-      },
-    });
 
   return (
     <div className="flex justify-center space-x-2">
@@ -80,7 +64,7 @@ export function CellAction({ data }: CellActionProps) {
         </Tooltip>
       </TooltipProvider>
 
-      <AlertModal
+      {/* <AlertModal
         title="Are you sure?"
         description="This action cannot be undone."
         name={data.firstName}
@@ -88,7 +72,7 @@ export function CellAction({ data }: CellActionProps) {
         onClose={() => setAlertModalOpen(false)}
         onConfirm={() => deleteEmployee(data.id)}
         loading={deleteEmployeeIsLoading}
-      />
+      /> */}
     </div>
   );
 }

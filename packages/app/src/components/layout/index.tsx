@@ -81,7 +81,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
     const receipt = await client?.getTransactionReceipt({ hash });
     console.log(receipt);
 
-    const logs = parseEventLogs({
+    const logs : any = parseEventLogs({
       abi: PocketFactoryAbi.abi,
       eventName: "PocketCreated",
       logs: receipt?.logs ?? [],
@@ -89,7 +89,6 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 
     console.log(logs);
     if(logs[0] === undefined) return;
-    console.log(logs[0].args);
     
     const argsStringify = JSON.stringify(logs[0].args);
     console.log("argsStringify is ", argsStringify);
