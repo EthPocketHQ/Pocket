@@ -1,0 +1,18 @@
+classDiagram
+  %% 504:2617:85
+  class PocketFactory {
+    <<Contract>>
+    +constructor(contract SafeProxyFactory safeProxyFactory)
+    +createDeterministic(address referenceSafe, bytes32 salt): (address, address)
+    +vaultSetup(bytes32 salt, address referenceSafe)
+    -_buildPocketVaultSetup(bytes32 salt, address referenceSafe): (bytes memory)
+  }
+  
+  PocketFactory --|> ExecutionContext
+  
+  %% 58:367:91
+  class ExecutionContext {
+    <<Contract>>
+    +constructor()
+  }
+  

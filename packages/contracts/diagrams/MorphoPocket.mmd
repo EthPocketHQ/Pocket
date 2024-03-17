@@ -1,0 +1,45 @@
+classDiagram
+  %% 340:179:84
+  class MorphoPocket {
+    <<Contract>>
+  }
+  
+  MorphoPocket --|> BasePocket
+  
+  %% 485:727:88
+  class BasePocket {
+    <<Contract>>
+    +setUp(bytes memory)
+    #deposit(bytes memory data)
+    #withdraw(bytes memory data)
+    #execute(bytes memory data)
+  }
+  
+  BasePocket --|> SelfAuthorized
+  
+  %% 209:333:48
+  class SelfAuthorized {
+    <<Contract>>
+    -requireSelfCall()
+  }
+  
+  BasePocket --|> ExecutionContext
+  
+  %% 58:367:91
+  class ExecutionContext {
+    <<Contract>>
+    +constructor()
+  }
+  
+  BasePocket --|> Initializable
+  
+  %% 2349:6560:34
+  class Initializable {
+    <<Contract>>
+    ~_checkInitializing()
+    ~_disableInitializers()
+    ~_getInitializedVersion(): (uint64)
+    ~_isInitializing(): (bool)
+    -_getInitializableStorage(): (struct Initializable.InitializableStorage storage $)
+  }
+  

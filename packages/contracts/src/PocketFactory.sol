@@ -12,6 +12,8 @@ import {ExecutionContext} from "~/utils/ExecutionContext.sol";
 contract PocketFactory is ExecutionContext {
     using Address for address;
 
+    event PocketCreated(address indexed referenceSafe, address indexed pocketVault, address indexed pocketManager);
+
     /// @notice Safe factory contract.
     SafeProxyFactory private immutable _safeProxyFactory;
 
@@ -27,18 +29,20 @@ contract PocketFactory is ExecutionContext {
     /// @notice Creates a new Pocket Manager and its corresponding Pocket Vault.
     /// The PocketVault is another Safe{Wallet} that's controlled by the manager by
     /// using the same permissions as in the reference Safe.
-    function createDeterministic(address referenceSafe, bytes32 salt) public returns (address, address) {
+    function createDeterministic(
+        address referenceSafe,
+        bytes32 salt
+    ) public returns (address pocketManager, address pocketVault) {
         bytes memory initializer = _buildPocketVaultSetup(salt, referenceSafe);
 
         // Create another safe controlled by the manager that will serve as a vault
-        address pocketVaultAddress = address(
+        pocketVault = address(
             _safeProxyFactory.createProxyWithNonce(IProxy(referenceSafe).masterCopy(), initializer, uint256(salt))
         );
 
-        return (
-            Clones.predictDeterministicAddress(_pocketManagerMasterCopy, salt, pocketVaultAddress),
-            pocketVaultAddress
-        );
+        pocketManager = Clones.predictDeterministicAddress(_pocketManagerMasterCopy, salt, pocketVault);
+
+        emit PocketCreated(referenceSafe, pocketVault, _pocketManagerMasterCopy);
     }
 
     /// @notice Creates a new Pocket contract and enables it as a module in a Safe.
