@@ -2,20 +2,27 @@ import React, { useEffect, useState } from "react";
 import Header from "@/components/layout/header";
 import Sidebar from "@/components/layout/sidebar";
 import Cookies from "js-cookie";
-import { useWriteContract } from "wagmi";
+import { usePublicClient, useWriteContract } from "wagmi";
 import PocketFactoryAbi from "../../utils/abi/PocketFactory.json";
 import { ethers } from "ethers";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
-import { useWatchPendingTransactions } from "wagmi";
+import {
+  useWatchPendingTransactions,
+  useTransactionReceipt,
+  useWaitForTransactionReceipt,
+} from "wagmi";
 import toast from "react-hot-toast";
+import { PocketFactoryAddress } from "@/utils/contracts";
+import { Hash, parseEventLogs } from "viem";
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   const { writeContract, data } = useWriteContract();
+  const client = usePublicClient();
+  const { data: receiptData } = useTransactionReceipt();
   const [isLoaded, setIsLoaded] = useState(false);
   const [safeAddress, setSafeAddress] = useState("");
   const [buttonEnabled, setButtonEnabled] = useState(false);
   const [loadingCreation, setLoadingCreation] = useState(false);
-  const PocketFactoryAddress = "0x4ba376c825aCC1C3bb0DeAb3663d735A226a9f14";
   const addRecentTransaction = useAddRecentTransaction();
   useWatchPendingTransactions({
     onTransactions(transactions) {
@@ -30,6 +37,9 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
   }, []);
   useEffect(() => {
     console.log("data onwrite is ", data);
+    if (data) {
+      getReceiptInfo(data);
+    }
   }, [data]);
   const handleLoadSafe = () => {
     const isValid = ethers.isAddress(safeAddress);
@@ -65,6 +75,26 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
       }
     );
   };
+  const getReceiptInfo = async (hash: Hash) => {
+    console.log("hash is on getreceipt", hash);
+
+    const receipt = await client?.getTransactionReceipt({ hash });
+    console.log(receipt);
+
+    const logs = parseEventLogs({
+      abi: PocketFactoryAbi.abi,
+      eventName: "PocketCreated",
+      logs: receipt?.logs ?? [],
+    });
+
+    console.log(logs);
+    if(logs[0] === undefined) return;
+    console.log(logs[0].args);
+    
+    const argsStringify = JSON.stringify(logs[0].args);
+    console.log("argsStringify is ", argsStringify);
+    Cookies.set("argsStringify", argsStringify);
+  };
   const LoadYourSafe = () => {
     return (
       <div className="flex h-full flex-col items-center justify-center">
@@ -84,12 +114,13 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
           <button
             onClick={handleLoadSafe}
             className={
-              !buttonEnabled ? "rounded-md border bg-gray-600 px-6 py-2 text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
-              : "rounded-md border bg-blue-600 px-6 py-2 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+              !buttonEnabled
+                ? "rounded-md border bg-gray-600 px-6 py-2 text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+                : "rounded-md border bg-blue-600 px-6 py-2 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
             }
             disabled={!buttonEnabled || loadingCreation}
           >
-            {loadingCreation ? 'Creating ...' : 'Load Safe'}
+            {loadingCreation ? "Creating ..." : "Load Safe"}
           </button>
         </div>
       </div>

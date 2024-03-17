@@ -20,11 +20,23 @@
           "type": "address",
           "internalType": "address"
         },
-        { "name": "salt", "type": "bytes32", "internalType": "bytes32" }
+        {
+          "name": "salt",
+          "type": "bytes32",
+          "internalType": "bytes32"
+        }
       ],
       "outputs": [
-        { "name": "", "type": "address", "internalType": "address" },
-        { "name": "", "type": "address", "internalType": "address" }
+        {
+          "name": "pocketManager",
+          "type": "address",
+          "internalType": "address"
+        },
+        {
+          "name": "pocketVault",
+          "type": "address",
+          "internalType": "address"
+        }
       ],
       "stateMutability": "nonpayable"
     },
@@ -32,7 +44,11 @@
       "type": "function",
       "name": "vaultSetup",
       "inputs": [
-        { "name": "salt", "type": "bytes32", "internalType": "bytes32" },
+        {
+          "name": "salt",
+          "type": "bytes32",
+          "internalType": "bytes32"
+        },
         {
           "name": "referenceSafe",
           "type": "address",
@@ -42,6 +58,35 @@
       "outputs": [],
       "stateMutability": "nonpayable"
     },
-    { "type": "error", "name": "ERC1167FailedCreateClone", "inputs": [] }
+    {
+      "type": "event",
+      "name": "PocketCreated",
+      "inputs": [
+        {
+          "name": "referenceSafe",
+          "type": "address",
+          "indexed": true,
+          "internalType": "address"
+        },
+        {
+          "name": "pocketVault",
+          "type": "address",
+          "indexed": true,
+          "internalType": "address"
+        },
+        {
+          "name": "pocketManager",
+          "type": "address",
+          "indexed": true,
+          "internalType": "address"
+        }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "error",
+      "name": "ERC1167FailedCreateClone",
+      "inputs": []
+    }
   ]
 }
