@@ -10,6 +10,8 @@ import {SafeMock} from "./mocks/Safe.m.sol";
 import {console} from "forge-std/Test.sol";
 import {PocketManager} from "~/PocketManager.sol";
 
+import {SafeMock} from "./mocks/Safe.m.sol";
+
 contract MorphoPocketTest is BaseTest {
     uint256 constant FOUNDING_VALUE = 10 ether;
     MorphoPocket morphoPocket;
@@ -31,12 +33,9 @@ contract MorphoPocketTest is BaseTest {
         address irm = address(3);
         uint256 lltv = 1;
         bytes memory data = abi.encode(loanToken, collateralToken, oracle, irm, lltv);
-        _forgeTransactionData(address(morphoPocket), value, data, referenceSafe.nonce());
         console.logAddress(msg.sender);
         console.logAddress(address(this));
         console.logAddress(address(morphoPocket));
-        morphoPocket.setUp(encode);
-        console.logBytes(encode);
         (address _loanToken, address _collateralToken, address _oracle, address _irm, uint256 _lltv) = morphoPocket.marketParams();
         console.logAddress(_loanToken);
     }
