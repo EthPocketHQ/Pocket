@@ -1,0 +1,115 @@
+classDiagram
+  %% 192:1070:83
+  class LimitOrderPocket {
+    <<Contract>>
+    +constructor(contract IPoolManager _poolManager)
+    #deposit(bytes memory data)
+    #withdraw(bytes memory data)
+    #execute(bytes memory data)
+  }
+  
+  LimitOrderPocket --|> LimitOrder
+  
+  %% 1226:14044:90
+  class LimitOrder {
+    <<Contract>>
+    +constructor(contract IPoolManager _poolManager)
+    +getHookPermissions(): (struct Hooks.Permissions memory)
+    +getTickLowerLast(PoolId poolId): (int24)
+    -setTickLowerLast(PoolId poolId, int24 tickLower)
+    +getEpoch(struct PoolKey memory key, int24 tickLower, bool zeroForOne): (Epoch)
+    -setEpoch(struct PoolKey memory key, int24 tickLower, bool zeroForOne, Epoch epoch)
+    #getEpochLiquidity(Epoch epoch, address owner): (uint256)
+    -getTick(PoolId poolId): (int24 tick)
+    -getTickLower(int24 tick, int24 tickSpacing): (int24)
+    #afterInitialize(address, struct PoolKey memory key, uint160, int24 tick, bytes memory): (bytes4)
+    #afterSwap(address, struct PoolKey memory key, struct IPoolManager.SwapParams memory params, BalanceDelta, bytes memory): (bytes4)
+    ~_fillEpoch(struct PoolKey memory key, int24 lower, bool zeroForOne)
+    ~_getCrossedTicks(PoolId poolId, int24 tickSpacing): (int24 tickLower, int24 lower, int24 upper)
+    -_lockAcquiredFill(struct PoolKey memory key, int24 tickLower, int256 liquidityDelta): (uint128 amount0, uint128 amount1)
+    +place(struct PoolKey memory key, int24 tickLower, bool zeroForOne, uint128 liquidity)
+    #lockAcquiredPlace(struct PoolKey memory key, int24 tickLower, bool zeroForOne, int256 liquidityDelta, address owner)
+    +kill(struct PoolKey memory key, int24 tickLower, bool zeroForOne, address to): (uint256 amount0, uint256 amount1)
+    #lockAcquiredKill(struct PoolKey memory key, int24 tickLower, int256 liquidityDelta, address to, bool removingAllLiquidity): (uint256 amount0, uint256 amount1, uint128 amount0Fee, uint128 amount1Fee)
+    +withdraw(Epoch epoch, address to): (uint256 amount0, uint256 amount1)
+    #lockAcquiredWithdraw(Currency currency0, Currency currency1, uint256 token0Amount, uint256 token1Amount, address to)
+    #onERC1155Received(address, address, uint256, uint256, bytes memory): (bytes4)
+  }
+  
+  LimitOrder --|> BaseHook
+  
+  %% 414:3995:82
+  class BaseHook {
+    <<Contract>>
+    ~constructor(contract IPoolManager _poolManager)
+    +getHookPermissions(): (struct Hooks.Permissions memory)$
+    ~validateHookAddress(contract BaseHook _this)
+    #lockAcquired(bytes calldata data): (bytes memory)
+    #beforeInitialize(address, struct PoolKey calldata, uint160, bytes calldata): (bytes4)
+    #afterInitialize(address, struct PoolKey calldata, uint160, int24, bytes calldata): (bytes4)
+    #beforeAddLiquidity(address, struct PoolKey calldata, struct IPoolManager.ModifyLiquidityParams calldata, bytes calldata): (bytes4)
+    #beforeRemoveLiquidity(address, struct PoolKey calldata, struct IPoolManager.ModifyLiquidityParams calldata, bytes calldata): (bytes4)
+    #afterAddLiquidity(address, struct PoolKey calldata, struct IPoolManager.ModifyLiquidityParams calldata, BalanceDelta, bytes calldata): (bytes4)
+    #afterRemoveLiquidity(address, struct PoolKey calldata, struct IPoolManager.ModifyLiquidityParams calldata, BalanceDelta, bytes calldata): (bytes4)
+    #beforeSwap(address, struct PoolKey calldata, struct IPoolManager.SwapParams calldata, bytes calldata): (bytes4)
+    #afterSwap(address, struct PoolKey calldata, struct IPoolManager.SwapParams calldata, BalanceDelta, bytes calldata): (bytes4)
+    #beforeDonate(address, struct PoolKey calldata, uint256, uint256, bytes calldata): (bytes4)
+    #afterDonate(address, struct PoolKey calldata, uint256, uint256, bytes calldata): (bytes4)
+  }
+  
+  BaseHook --|> IHooks
+  
+  %% 557:6414:58
+  class IHooks {
+    <<Interface>>
+    #beforeInitialize(address sender, struct PoolKey calldata key, uint160 sqrtPriceX96, bytes calldata hookData): (bytes4)$
+    #afterInitialize(address sender, struct PoolKey calldata key, uint160 sqrtPriceX96, int24 tick, bytes calldata hookData): (bytes4)$
+    #beforeAddLiquidity(address sender, struct PoolKey calldata key, struct IPoolManager.ModifyLiquidityParams calldata params, bytes calldata hookData): (bytes4)$
+    #afterAddLiquidity(address sender, struct PoolKey calldata key, struct IPoolManager.ModifyLiquidityParams calldata params, BalanceDelta delta, bytes calldata hookData): (bytes4)$
+    #beforeRemoveLiquidity(address sender, struct PoolKey calldata key, struct IPoolManager.ModifyLiquidityParams calldata params, bytes calldata hookData): (bytes4)$
+    #afterRemoveLiquidity(address sender, struct PoolKey calldata key, struct IPoolManager.ModifyLiquidityParams calldata params, BalanceDelta delta, bytes calldata hookData): (bytes4)$
+    #beforeSwap(address sender, struct PoolKey calldata key, struct IPoolManager.SwapParams calldata params, bytes calldata hookData): (bytes4)$
+    #afterSwap(address sender, struct PoolKey calldata key, struct IPoolManager.SwapParams calldata params, BalanceDelta delta, bytes calldata hookData): (bytes4)$
+    #beforeDonate(address sender, struct PoolKey calldata key, uint256 amount0, uint256 amount1, bytes calldata hookData): (bytes4)$
+    #afterDonate(address sender, struct PoolKey calldata key, uint256 amount0, uint256 amount1, bytes calldata hookData): (bytes4)$
+  }
+  
+  LimitOrderPocket --|> BasePocket
+  
+  %% 485:727:88
+  class BasePocket {
+    <<Contract>>
+    +setUp(bytes memory)
+    #deposit(bytes memory data)
+    #withdraw(bytes memory data)
+    #execute(bytes memory data)
+  }
+  
+  BasePocket --|> SelfAuthorized
+  
+  %% 209:333:48
+  class SelfAuthorized {
+    <<Contract>>
+    -requireSelfCall()
+  }
+  
+  BasePocket --|> ExecutionContext
+  
+  %% 58:367:91
+  class ExecutionContext {
+    <<Contract>>
+    +constructor()
+  }
+  
+  BasePocket --|> Initializable
+  
+  %% 2349:6560:34
+  class Initializable {
+    <<Contract>>
+    ~_checkInitializing()
+    ~_disableInitializers()
+    ~_getInitializedVersion(): (uint64)
+    ~_isInitializing(): (bool)
+    -_getInitializableStorage(): (struct Initializable.InitializableStorage storage $)
+  }
+  
