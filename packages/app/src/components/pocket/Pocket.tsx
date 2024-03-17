@@ -19,10 +19,11 @@ const PocketComponent = ({ pocketType, title }: Props) => {
   useEffect(() => {
     if (pocketType === PocketType.MORPHO) {
       if (Cookies.get("morphoActived")) {
-      setIsActive(true);
+        setIsActive(true);
+      }
     }
-  }, [])
-  
+  }, [Cookies.get("morphoActived")]);
+
   return (
     <Card className="h-40">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
