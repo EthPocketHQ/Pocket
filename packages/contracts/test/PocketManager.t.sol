@@ -30,11 +30,11 @@ contract PocketManagerTest is BaseTest {
 
     function test_executeTransaction(address to, uint256 value, bytes calldata data) public {
         (, bytes memory signatures) = _forgeTransactionData(to, value, data, referenceSafe.nonce());
-        // vm.expectEmit(true, true, true, true);
-        // emit SafeMock.ExecutedWith(to, value, data, Enum.Operation.Call);
+        vm.expectEmit(true, true, true, true);
+        emit SafeMock.ExecutedWith(to, value, data, Enum.Operation.Call);
         vm.deal(address(referenceSafe), value);
         assertTrue(pocketVault.isModuleEnabled(address(pocketManager)));
 
-        pocketManager.executeTransaction(to, value, data, signatures);
+        pocketManager.executeTransaction(to, value, Enum.Operation.Call, data, signatures);
     }
 }
