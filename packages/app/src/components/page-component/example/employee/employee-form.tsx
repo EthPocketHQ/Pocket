@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { type EmployeeFromValues, employeeFormSchema } from "@/lib/validators";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { api } from "@/utils/api";
 import toast from "react-hot-toast";
 import { Heading } from "@/components/common/heading";
 import { Button } from "@/components/ui/button";
@@ -53,49 +52,9 @@ export const EmployeeForm = ({ initialData }: EmployeeFormProps) => {
     },
   });
 
-  const { mutate: createEmployee } = api.employee.create.useMutation({
-    onError: (err) => {
-      toast.error(err.message);
-    },
-    onSuccess: (data) => {
-      toast.success(toastMessage);
-      router.push(`/example/employees`);
-    },
-  });
-
-  const { mutate: updateEmployee } = api.employee.update.useMutation({
-    onError: (err) => {
-      toast.error(err.message);
-    },
-    onSuccess: (data) => {
-      toast.success(toastMessage);
-      router.push(`/example/employees`);
-    },
-  });
-
-  const { mutate: deleteEmployee, isLoading: deleteEmployeeIsLoading } =
-    api.employee.delete.useMutation({
-      onError: (err) => {
-        toast.error(err.message);
-      },
-      onSuccess: (data) => {
-        toast.success(toastMessage);
-        router.push(`/example/employees`);
-      },
-    });
-
-  const onSubmit = (values: EmployeeFromValues) => {
-    setLoading(true);
-    if (initialData) {
-      updateEmployee({ ...values, id: initialData.id });
-    } else {
-      createEmployee(values);
-    }
-    setLoading(false);
-  };
 
   const onDelete = () => {
-    deleteEmployee(initialData?.id as string);
+    // deleteEmployee(initialData?.id as string);
   };
 
   return (
@@ -117,7 +76,6 @@ export const EmployeeForm = ({ initialData }: EmployeeFormProps) => {
 
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
           className="w-full space-y-8"
         >
           <div className="grid-cols-3 gap-8 md:grid">
@@ -207,7 +165,7 @@ export const EmployeeForm = ({ initialData }: EmployeeFormProps) => {
         isOpen={open}
         onClose={() => setOpen(false)}
         onConfirm={onDelete}
-        loading={deleteEmployeeIsLoading}
+        loading={false}
       />
     </>
   );
