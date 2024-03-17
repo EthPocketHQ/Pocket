@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.25;
 
-import {ExecutionContext} from "../utils/ExecutionContext.sol";
+import {ExecutionContext} from "~/utils/ExecutionContext.sol";
 import {Clones} from "@openzeppelin/contracts/proxy/Clones.sol";
-import {BasePocket} from "./BasePocket.sol";
+import {BasePocket} from "~/base/BasePocket.sol";
 
 /// @notice Factory for Pocket contracts extending from BasePocket
 /// @dev These functions must be called as a delegatecall from the PocketVault.

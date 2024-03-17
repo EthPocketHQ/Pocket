@@ -6,9 +6,16 @@ import {ModuleManager} from "@safe/contracts/base/ModuleManager.sol";
 import {ExecutionContext} from "~/utils/ExecutionContext.sol";
 import {Initializable} from "@openzeppelin/contracts/proxy/utils/Initializable.sol";
 
+interface IBasePocket {
+    function setUp(bytes memory) external;
+    function deposit(bytes memory) external;
+    function withdraw(bytes memory) external;
+    function execute(bytes memory) external;
+}
+
 /// @notice BasePocket is a contract with the basic functionality for depositing and withdrawing tokens
 /// from a PocketVault
-abstract contract BasePocket is SelfAuthorized, ExecutionContext, Initializable {
+abstract contract BasePocket is IBasePocket, SelfAuthorized, ExecutionContext, Initializable {
     /// @notice Set up the pocket and enables it as a module on its corresponding vault
     function setUp(bytes memory) public virtual authorized initializer {
         ModuleManager(msg.sender).enableModule(__self);

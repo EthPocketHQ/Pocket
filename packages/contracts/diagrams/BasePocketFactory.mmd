@@ -1,0 +1,16 @@
+classDiagram
+  %% 384:825:89
+  class BasePocketFactory {
+    <<Contract>>
+    +createDeterministic(address pocket, bytes32 salt, bytes memory data): (address)
+    +createDeterministic(address pocket, bytes32 salt): (address)
+  }
+  
+  BasePocketFactory --|> ExecutionContext
+  
+  %% 58:367:91
+  class ExecutionContext {
+    <<Contract>>
+    +constructor()
+  }
+  

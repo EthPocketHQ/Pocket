@@ -86,7 +86,7 @@ contract LimitOrder is BaseHook {
     function getHookPermissions() public pure override returns (Hooks.Permissions memory) {
         return
             Hooks.Permissions({
-                beforeInitialize: false,
+                beforeInitialize: true,
                 afterInitialize: true,
                 beforeAddLiquidity: false,
                 beforeRemoveLiquidity: false,
@@ -98,6 +98,8 @@ contract LimitOrder is BaseHook {
                 afterDonate: false
             });
     }
+
+    function validateHookAddress(BaseHook _this) internal pure virtual override {}
 
     function getTickLowerLast(PoolId poolId) public view returns (int24) {
         return tickLowerLasts[poolId];
@@ -138,6 +140,16 @@ contract LimitOrder is BaseHook {
     ) external override poolManagerOnly returns (bytes4) {
         setTickLowerLast(key.toId(), getTickLower(tick, key.tickSpacing));
         return LimitOrder.afterInitialize.selector;
+    }
+    
+    function beforeInitialize(
+        address,
+        PoolKey memory,
+        uint160,
+        int24,
+        bytes memory
+    ) external view poolManagerOnly returns (bytes4) {
+        return LimitOrder.beforeInitialize.selector;
     }
 
     function afterSwap(
