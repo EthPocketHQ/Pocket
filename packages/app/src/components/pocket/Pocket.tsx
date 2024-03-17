@@ -4,6 +4,7 @@ import Modal from "../modal/Modal";
 import { PocketType } from "@/pages";
 import ActivateModal from "../modal/Activate";
 import Cookies from "js-cookie";
+import DepositModal from "../modal/Deposit";
 
 type Props = {
   pocketType: PocketType;
@@ -16,6 +17,7 @@ const PocketComponent = ({ pocketType, title }: Props) => {
   const [isWithdrawOpen, setWithdrawOpen] = useState(false);
   const [isExecuteOpen, setExecuteOpen] = useState(false);
   const [isActivateOpen, setActivateOpen] = useState(false);
+  const [balance, setBalance] = useState(0);
   useEffect(() => {
     if (pocketType === PocketType.MORPHO) {
       if (Cookies.get("morphoActived")) {
@@ -42,7 +44,7 @@ const PocketComponent = ({ pocketType, title }: Props) => {
         </svg>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">$1,000.89</div>
+        <div className="text-2xl font-bold">{`${balance}`}</div>
         <p className="text-xs text-muted-foreground">+13.1% from last month</p>
         {/* Botones añadidos aquí */}
         {isActive ? (
@@ -79,9 +81,9 @@ const PocketComponent = ({ pocketType, title }: Props) => {
         <Modal
           isOpen={isDepositOpen}
           closeModal={() => setDepositOpen(false)}
-          title="Withdraw"
+          title="Deposit"
         >
-          <div>test</div>
+          <DepositModal type={pocketType} />
         </Modal>
         <Modal
           isOpen={isWithdrawOpen}
@@ -95,7 +97,7 @@ const PocketComponent = ({ pocketType, title }: Props) => {
           closeModal={() => setExecuteOpen(false)}
           title="Execute"
         >
-          <div>test</div>
+          <DepositModal type={pocketType} />
         </Modal>
         <Modal
           isOpen={isActivateOpen}
