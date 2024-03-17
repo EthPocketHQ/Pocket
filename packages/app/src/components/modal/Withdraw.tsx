@@ -26,7 +26,7 @@ import { encodeFunctionData } from "viem";
 type Props = {
   type: PocketType;
 };
-const DepositModal = ({ type }: Props) => {
+const WithdrawModal = ({ type }: Props) => {
   const { writeContract } = useWriteContract();
   const [loading, setLoading] = useState(false);
   const [activated, setActivated] = useState(false);
@@ -36,12 +36,12 @@ const DepositModal = ({ type }: Props) => {
   const chainId = useChainId();
 
   const [morphoAmount, setMorphoAmount] = useState("0");
-  const depositMorpho = async () => {
+  const withdrawMorpho = async () => {
     try {
       setLoading(true);
-      console.log("depositing on Morpho");
+      console.log("withdrawing on Morpho");
       const abiCoder = new ethers.AbiCoder();
-      const morphoDepositData = abiCoder.encode(
+      const morphoWithdrawData = abiCoder.encode(
         ["address", "address", "address", "address", "uint256"],
         [ORACLE, IRM, COLLATERAL_TOKEN, LOAN_TOKEN, LLTV]
       );
@@ -49,24 +49,22 @@ const DepositModal = ({ type }: Props) => {
       const pocketVaultString = Cookies.get("argsStringify");
       const poketVaultParsed = JSON.parse(pocketVaultString ?? "{}");
       const { pocketManager, pocketVault, referenceSafe } = poketVaultParsed;
-      const a = await client?.call({
-        to: pocketManager,
-        data: encodeFunctionData({
-          abi: PocketManagerABI.abi,
-          functionName: "referenceSafe",
-          args: [],
-        }),
-      });
-      console.log("a is ...", a);
-      const b = await client?.call({
-        to: pocketManager,
-        data: encodeFunctionData({
-          abi: PocketManagerABI.abi,
-          functionName: "pocketVault",
-          args: [],
-        }),
-      });
-      console.log("b is ...", b);
+      // const a = await client?.call({
+      //   to: pocketManager,
+      //   data: encodeFunctionData({
+      //     abi: PocketManagerABI.abi,
+      //     functionName: "referenceSafe",
+      //     args: [],
+      //   }),
+      // });
+      // const b = await client?.call({
+      //   to: pocketManager,
+      //   data: encodeFunctionData({
+      //     abi: PocketManagerABI.abi,
+      //     functionName: "pocketVault",
+      //     args: [],
+      //   }),
+      // });
       const result = await client?.call({
         to: pocketVault,
         data: encodeFunctionData({
@@ -80,7 +78,7 @@ const DepositModal = ({ type }: Props) => {
       const encodedCreateDeterministicCall = encodeFunctionData({
         abi: BasePocketFactoryABI.abi,
         functionName: "createDeterministic",
-        args: [MorphoPocket, random32Bytes, morphoDepositData],
+        args: [MorphoPocket, random32Bytes, morphoWithdrawData],
       });
 
       if (!result) return;
@@ -136,7 +134,9 @@ const DepositModal = ({ type }: Props) => {
         {
           onSuccess: (result) => {
             console.log("Transaction successful:", result);
-            Cookies.set("morphoBalance", morphoAmount);
+            const currentBalance = Cookies.get("morphoBalance");
+            const newBalance = Number(currentBalance) - Number(morphoAmount);
+            Cookies.set("morphoBalance", newBalance.toString());
             setLoading(false);
             setActivated(true);
           },
@@ -172,9 +172,9 @@ const DepositModal = ({ type }: Props) => {
     case PocketType.MORPHO:
       return !activated ? (
         <div className="mx-auto max-w-md space-y-2 rounded-lg border bg-white p-4 shadow-md">
-          <h1 className="text-xl font-bold text-gray-700">Morpho Deposit</h1>
+          <h1 className="text-xl font-bold text-gray-700">Morpho</h1>
           <p className="text-gray-600">
-            Deposit wETH on Morpho to start earning.
+            Withdraw wETH tokens from Morpho.
           </p>
           <input
             type="text"
@@ -186,19 +186,19 @@ const DepositModal = ({ type }: Props) => {
           />
           <div className="flex justify-end">
             <button
-              onClick={depositMorpho}
+              onClick={withdrawMorpho}
               className="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600"
               disabled={loading}
             >
-              {loading ? "Loading" : "Yes, Deposit"}
+              {loading ? "Loading" : "Yes, Withdraw"}
             </button>
           </div>
         </div>
       ) : (
         <div className="mx-auto max-w-md space-y-2 rounded-lg border bg-white p-4 shadow-md">
-          <h1 className="text-xl font-bold text-gray-700">Morpho Deposit</h1>
+          <h1 className="text-xl font-bold text-gray-700">Morpho Withdraw</h1>
           <p className="text-gray-600">
-            Great, you completed your deposit.
+            Great, you completed your withdraw.
           </p>
         </div>
       );
@@ -237,4 +237,4 @@ const DepositModal = ({ type }: Props) => {
   }
 };
 
-export default DepositModal;
+export default WithdrawModal;
