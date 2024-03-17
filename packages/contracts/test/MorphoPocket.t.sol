@@ -10,6 +10,8 @@ import {SafeMock} from "./mocks/Safe.m.sol";
 import {console} from "forge-std/Test.sol";
 import {PocketManager} from "~/PocketManager.sol";
 
+import {SafeMock} from "./mocks/Safe.m.sol";
+
 contract MorphoPocketTest is BaseTest {
     uint256 constant FOUNDING_VALUE = 10 ether;
     MorphoPocket morphoPocket;
@@ -34,8 +36,7 @@ contract MorphoPocketTest is BaseTest {
         console.logAddress(msg.sender);
         console.logAddress(address(this));
         console.logAddress(address(morphoPocket));
-        (address _loanToken, address _collateralToken, address _oracle, address _irm, uint256 _lltv) = morphoPocket
-            .marketParams();
+        (address _loanToken, address _collateralToken, address _oracle, address _irm, uint256 _lltv) = morphoPocket.marketParams();
         console.logAddress(_loanToken);
     }
 }

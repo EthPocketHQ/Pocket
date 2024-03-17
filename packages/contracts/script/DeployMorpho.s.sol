@@ -2,7 +2,6 @@
 pragma solidity ^0.8.25;
 import {Script} from "forge-std/Script.sol";
 import {MorphoPocket} from "../src/MorphoPocket.sol";
-import {BasePocketFactory} from "../src/base/BasePocketFactory.sol";
 
 contract DeployMorphoPocket is Script {
 
@@ -15,7 +14,6 @@ contract DeployMorphoPocket is Script {
         vm.startBroadcast();
         MorphoPocket morphoPocket = new MorphoPocket();
         bytes memory encode = abi.encode(ORAGLE, IRM, COLLATERAL_TOKEN, LOAN_TOKEN, LLTV);
-        BasePocketFactory(address(morphoPocket));
         vm.stopBroadcast();
         return morphoPocket;
     }
@@ -27,7 +25,8 @@ contract DeployMorphoPocketDeposit is Script {
     function run() external {
         vm.startBroadcast();
         MorphoPocket morphoPocket = MorphoPocket(MORPHO_CONTRACT_ADDRESS);
-        morphoPocket.deposit(1 ether);
+        bytes memory amount = abi.encode(1 ether);
+        morphoPocket.deposit(amount);
         vm.stopBroadcast();
     }
 }

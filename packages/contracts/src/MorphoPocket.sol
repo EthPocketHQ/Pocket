@@ -47,8 +47,24 @@ contract MorphoPocket is BasePocket {
         return address(this).balance;
     }
 
-    function deposit(uint256 amount) public authorized {
+    function deposit(bytes memory data) override public  {
+        uint256 amount = abi.decode(data, (uint256));
         supply(amount);
+    }
+
+    function withdraw(bytes memory data) override public  {
+        uint256 amount = abi.decode(data, (uint256));
+        withdrawAmount(marketParams, amount);
+    }
+    function withdrawAmount(MarketParams memory marketParams, uint256 amount)
+        public
+        returns (uint256 assetsWithdrawn, uint256 sharesWithdrawn)
+    {
+        uint256 shares;
+        address onBehalf = msg.sender;
+        address receiver = msg.sender;
+
+        (assetsWithdrawn, sharesWithdrawn) = morpho.withdraw(marketParams, amount, shares, onBehalf, receiver);
     }
 
     function supply(uint256 amount) public returns (uint256 assetsSupplied, uint256 sharesSupplied) {
