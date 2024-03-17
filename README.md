@@ -75,33 +75,12 @@ Pocket is a Gnosis Pay savings account that enables seamless integration with on
 
 This is possible through an on-chain custodial for your savings that's capable of adding small financial modules called "pockets", these handle the logic of integrations with more complex financial services.
 
-
-
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 # Demo
 
 <!-- INSERTAR DEMO AQUÍ-->
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-# Built With
-
-
-Pocket is proudly supported by the following sponsors:
-
-
-* [![Gnosis Pay][gnosispay.com]][gnosispay-url]
-* [![Safe][safe.global]][safe-url]
-* [![Uniswap][uniswap.org]][uniswap-url]
-* [![Panceswap][pancakeswap.finance]][pancakeswap-url]
-* [![Morpho][morpho.org]][morpho-url]
-* [![Nouns][nouns.wtf]][nouns-url]
-
-
-These powerful partners have helped us create a seamless user experience and ensure the scalability and reliability of our project.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -150,8 +129,41 @@ Creating an application Pocket.
 
 You can check more details about user journey, contract design and Pocket's architecture in [DESIGN.md](https://github.com/EthPocketHQ/Pocket/blob/main/DESIGN.md)
 
+## Building a custom Application Pocket
+
+DeFi protocols can build on top of Pocket by implementing the basepocket.sol (link), following the interface bellow:
+
+```solidity
+interface IBasePocket {
+    function setUp(bytes memory) external; // Called by the BasePocketFactory
+    function deposit(bytes memory) external; // For actions equivalent to a deposit (e.g. providing liquidity to a pool)
+    function withdraw(bytes memory) external; // For actions equivalent to a withdraw (e.g. removing liquidity from a pool)
+    function execute(bytes memory) external; // For actions that don't require a deposit or a withdraw (e.g. swapping tokens)
+}
+```
+
+More information in [DESIGN.md](https://github.com/EthPocketHQ/Pocket/blob/main/DESIGN.md)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+# Built With
+
+
+Pocket is proudly supported by the following sponsors:
+
+
+* [![Gnosis Pay][gnosispay.com]][gnosispay-url]
+* [![Safe][safe.global]][safe-url]
+* [![Uniswap][uniswap.org]][uniswap-url]
+* [![Panceswap][pancakeswap.finance]][pancakeswap-url]
+* [![Morpho][morpho.org]][morpho-url]
+* [![Nouns][nouns.wtf]][nouns-url]
+
+
+These powerful partners have helped us create a seamless user experience and ensure the scalability and reliability of our project.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 
 <!-- CONTACT -->
@@ -172,29 +184,6 @@ You can check more details about user journey, contract design and Pocket's arch
 -Sebastian Guaqueta ([@scguaquetam](https://twitter.com/scguaquetam)): Frontent Integration (Stealth Company), [Push Protocol](https://twitter.com/pushprotocol) and [WTF Academy Contributor](https://twitter.com/WTFAcademy_).
 <br />
 
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-<!-- ACKNOWLEDGMENTS -->
-
-# Acknowledgments
-
-<!-- 
-
-
-We would like to express our gratitude to the following resources that have been invaluable in the development of Stake Garden:
-
-* [1inch Docs](https://portal.1inch.dev/documentation/authentication)
-* [Metamask SDK](https://docs.metamask.io/wallet/how-to/use-sdk/)
-* [The Graph Docs](https://thegraph.com/docs)
-* [Nouns Artwork](https://nouns.center/assets)
-
--->
-
-<!-- * [Filecoin Docs](https://docs.filecoin.io/) -->
-
-These resources have provided valuable insights, tools, and inspiration throughout the development process. We appreciate their contributions to the web development community.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
