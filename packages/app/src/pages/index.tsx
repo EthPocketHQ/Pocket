@@ -54,17 +54,23 @@ const Home = () => {
               </Card>
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              <PocketComponent 
+              <PocketComponent
                 pocketType={PocketType.UNISWAP}
                 title="Uniswap"
+                cookieKey="uniswapLimitOrderActivated"
+                balanceKey="uniswapBalance"
               />
-              <PocketComponent 
+              <PocketComponent
                 pocketType={PocketType.MORPHO}
                 title="Morpho"
+                cookieKey="morphoActived"
+                balanceKey="morphoBalance"
               />
-              <PocketComponent 
+              <PocketComponent
                 pocketType={PocketType.PANCAKESWAP}
                 title="Pancakeswap"
+                cookieKey="pancakeswapLimitOrderActivated"
+                balanceKey="pancakeSwapBalance"
               />
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">

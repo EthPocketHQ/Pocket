@@ -7,6 +7,7 @@ import {
   LOAN_TOKEN,
   MorphoPocket,
   ORACLE,
+  UniswapPoolManager,
 } from "@/utils/contracts";
 import { ethers } from "ethers";
 import React, { useState } from "react";
@@ -30,6 +31,8 @@ const ActivateModal = ({ type }: Props) => {
   const { writeContract } = useWriteContract();
   const [loading, setLoading] = useState(false);
   const [activated, setActivated] = useState(false);
+  const [uniswapLoading, setUniswapLoading] = useState(false);
+  const [uniswapActivated, setUniswapActivated] = useState(false);
   const { signTypedData, signTypedDataAsync } = useSignTypedData();
   const client = usePublicClient();
   const walletClient = useWalletClient();
@@ -53,26 +56,6 @@ const ActivateModal = ({ type }: Props) => {
       const pocketVaultString = Cookies.get("argsStringify");
       const poketVaultParsed = JSON.parse(pocketVaultString ?? "{}");
       const { pocketManager, pocketVault, referenceSafe } = poketVaultParsed;
-      console.log("pocketVault", pocketVault);
-      console.log("pocketManager", pocketManager);
-      const a = await client?.call({
-        to: pocketManager,
-        data: encodeFunctionData({
-          abi: PocketManagerABI.abi,
-          functionName: "referenceSafe",
-          args: [],
-        }),
-      });
-      console.log("a is ...", a);
-      const b = await client?.call({
-        to: pocketManager,
-        data: encodeFunctionData({
-          abi: PocketManagerABI.abi,
-          functionName: "pocketVault",
-          args: [],
-        }),
-      });
-      console.log("b is ...", b);
       const result = await client?.call({
         to: pocketVault,
         data: encodeFunctionData({
@@ -155,24 +138,126 @@ const ActivateModal = ({ type }: Props) => {
       console.log("error is ...", error);
     }
   };
+
+  const activateUniswap = async () => {
+    try {
+      setUniswapLoading(true);
+
+      const abiCoder = new ethers.AbiCoder();
+      const uniswapSetupData = abiCoder.encode(
+        ["address"],
+        [UniswapPoolManager]
+      );
+
+      const pocketVaultString = Cookies.get("argsStringify");
+      const poketVaultParsed = JSON.parse(pocketVaultString ?? "{}");
+      const { pocketManager, pocketVault, referenceSafe } = poketVaultParsed;
+      const nonceResponse = await client?.call({
+        to: pocketVault,
+        data: encodeFunctionData({
+          abi: PocketVaultABI,
+          functionName: "nonce",
+          args: [],
+        }),
+      });
+
+      const random32Bytes = ethers.hexlify(ethers.randomBytes(32));
+
+      const encodedCreateDeterministicCall = encodeFunctionData({
+        abi: BasePocketFactoryABI.abi,
+        functionName: "createDeterministic",
+        args: [MorphoPocket, random32Bytes, uniswapSetupData],
+      });
+
+      const signedData = await signTypedDataAsync({
+        domain: {
+          chainId: chainId,
+          verifyingContract: referenceSafe,
+        },
+        types: {
+          SafeTx: [
+            { type: "address", name: "to" },
+            { type: "uint256", name: "value" },
+            { type: "bytes", name: "data" },
+            { type: "uint8", name: "operation" },
+            { type: "uint256", name: "safeTxGas" },
+            { type: "uint256", name: "baseGas" },
+            { type: "uint256", name: "gasPrice" },
+            { type: "address", name: "gasToken" },
+            { type: "address", name: "refundReceiver" },
+            { type: "uint256", name: "nonce" },
+          ],
+        },
+        primaryType: "SafeTx",
+        message: {
+          to: BasePocketFactory,
+          value: 0n,
+          data: encodedCreateDeterministicCall as `0x${string}`,
+          operation: 1,
+          safeTxGas: 0n,
+          baseGas: 0n,
+          gasPrice: 0n,
+          gasToken: ethers.ZeroAddress as `0x${string}`,
+          refundReceiver: ethers.ZeroAddress as `0x${string}`,
+          nonce: BigInt(nonceResponse?.data ?? 0),
+        },
+      });
+
+      writeContract(
+        {
+          address: pocketManager as `0x${string}`,
+          abi: PocketManagerABI.abi,
+          functionName: "executeTransaction",
+          args: [
+            BasePocketFactory,
+            0,
+            1,
+            encodedCreateDeterministicCall,
+            signedData,
+          ],
+          gas: 5000000n,
+        },
+        {
+          onSuccess: (result) => {
+            console.log("Transaction successful:", result);
+            Cookies.set("uniswapLimitOrderActivated", result);
+            setUniswapLoading(false);
+            setUniswapActivated(true);
+          },
+          onError: (error) => {
+            console.error("Transaction error:", error);
+          },
+        }
+      );
+    } catch (error) {
+      console.log("error is ...", error);
+    }
+  };
   switch (type) {
     case PocketType.UNISWAP:
-      return (
+      return !uniswapActivated ? (
         <div className="mx-auto max-w-md space-y-2 rounded-lg border bg-white p-4 shadow-md">
           <h1 className="text-xl font-bold text-gray-700">
-            Uniswap Activation
+            Uniswap Limit Order Activation
           </h1>
           <p className="text-gray-600">
-            Activate your Uniswap pocket to start swapping tokens seamlessly.
+            Enable Uniswap Limit Order Pocket to start placing limit orders for
+            your account.
           </p>
           <div className="flex justify-end">
             <button
               className="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600"
-              disabled={loading}
+              disabled={uniswapLoading}
+              onClick={activateUniswap}
             >
-              {loading ? "Loading" : "Yes, Activate"}
+              {uniswapLoading ? "Loading" : "Yes, Activate"}
             </button>
           </div>
+        </div>
+      ) : (
+        <div className="mx-auto max-w-md space-y-2 rounded-lg border bg-white p-4 shadow-md">
+          <h1 className="text-xl font-bold text-gray-700">Uniswap Limit Order Activation</h1>
+          <p className="text-gray-600">Great, you activated your pocket.</p>
         </div>
       );
     case PocketType.MORPHO:
@@ -195,9 +280,7 @@ const ActivateModal = ({ type }: Props) => {
       ) : (
         <div className="mx-auto max-w-md space-y-2 rounded-lg border bg-white p-4 shadow-md">
           <h1 className="text-xl font-bold text-gray-700">Morpho Activation</h1>
-          <p className="text-gray-600">
-            Great, you activated your pocket.
-          </p>
+          <p className="text-gray-600">Great, you activated your pocket.</p>
         </div>
       );
     case PocketType.PANCAKESWAP:

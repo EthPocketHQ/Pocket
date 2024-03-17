@@ -91,4 +91,10 @@ contract MorphoPocket is BasePocket {
     function getUserSupply() public view authorized returns (uint256) {
         return supplyAsssetUser(msg.sender);
     }
+
+    /// @notice Move funds from the PocketVault to another service
+    function deposit(bytes memory data) external virtual authorized {}
+
+    /// @notice Claim funds from another service to the PocketVault
+    function withdraw(bytes memory data) external virtual authorized {}
 }

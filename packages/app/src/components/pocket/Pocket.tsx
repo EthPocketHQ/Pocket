@@ -5,30 +5,31 @@ import { PocketType } from "@/pages";
 import ActivateModal from "../modal/Activate";
 import Cookies from "js-cookie";
 import DepositModal from "../modal/Deposit";
-import WithdrawModal from "../modal/Withdraw";
 
 type Props = {
   pocketType: PocketType;
   title: string;
+  cookieKey: string;
+  balanceKey: string;
 };
 
-const PocketComponent = ({ pocketType, title }: Props) => {
+const PocketComponent = ({
+  pocketType,
+  title,
+  cookieKey,
+  balanceKey,
+}: Props) => {
   const [isActive, setIsActive] = useState(false);
   const [isDepositOpen, setDepositOpen] = useState(false);
   const [isWithdrawOpen, setWithdrawOpen] = useState(false);
   const [isExecuteOpen, setExecuteOpen] = useState(false);
   const [isActivateOpen, setActivateOpen] = useState(false);
-  const [balance, setBalance] = useState("0");
+  const [balance, setBalance] = useState(0);
   useEffect(() => {
-    if (pocketType === PocketType.MORPHO) {
-      if (Cookies.get("morphoActived")) {
-        setIsActive(true);
-      }
-      if(Cookies.get("morphoBalance")) {
-        setBalance(Cookies.get("morphoBalance") ?? '0');
-      }
-    }
-  }, [Cookies.get("morphoActived"), Cookies.get("morphoBalance")]);
+    setIsActive(!!Cookies.get(cookieKey));
+    const balanceCookie = Cookies.get(balanceKey);
+    setBalance(balanceCookie ? Number(balanceCookie) : 0);
+  }, [cookieKey, pocketType, balanceKey]);
 
   return (
     <Card className="h-40">
@@ -94,7 +95,7 @@ const PocketComponent = ({ pocketType, title }: Props) => {
           closeModal={() => setWithdrawOpen(false)}
           title="Withdraw"
         >
-          <WithdrawModal type={pocketType} />
+          <div>test</div>
         </Modal>
         <Modal
           isOpen={isExecuteOpen}
